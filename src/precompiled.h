@@ -3,6 +3,9 @@
 
 #define PI 3.14159265359
 
+#define CIRCLE_SHAPE 0
+#define POLYGON_SHAPE 1
+
 #include <vector>
 #include <iostream>
 

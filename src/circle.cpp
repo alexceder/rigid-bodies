@@ -8,3 +8,8 @@ void Circle::draw()
 {
     // TODO
 }
+
+int Circle::getType()
+{
+    return CIRCLE_SHAPE;
+}

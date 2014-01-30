@@ -7,4 +7,5 @@ public:
     Polygon() { };
 
     void draw();
+    int getType();
 };

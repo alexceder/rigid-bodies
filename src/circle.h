@@ -8,4 +8,5 @@ public:
     Circle(float);
 
     void draw();
+    int getType();
 };
