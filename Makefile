@@ -25,6 +25,7 @@ all: compile
 .PHONY: all
 
 compile: $(FILES)
+	mkdir -p $(BINFOLD)
 	$(CC) $(CFLAGS) $(FILES) -o $(BINFOLD)$(BINNAME) $(LIBFOLD) $(INCFOLD) $(FRAMEWORKS)
 .PHONY: compile
 
