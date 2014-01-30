@@ -5,5 +5,5 @@ private:
     float _radius;
 
 public:
-    Circle(float) { };
+    Circle(float);
 };
