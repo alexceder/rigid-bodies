@@ -13,7 +13,7 @@ LIBFOLD = -L"/opt/local/lib"
 INCFOLD = -I"/opt/local/include"
 
 # Files:
-FILES = *.cpp
+FILES = src/*.cpp
 
 # Binary folder:
 BINFOLD = bin/
