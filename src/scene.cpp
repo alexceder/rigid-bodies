@@ -5,11 +5,15 @@ void Scene::checkCollisions()
     // TODO
 };
 
+// Not sure if we need this.
 void Scene::applyImpulse()
 {
-    // for (std::vector<RigidBody *>::iterator it = _collisions.begin() ; it != _collisions.end(); ++it) {
-    //     it->applyImpulse();
-    // }
+    // TODO
+};
+
+void Scene::applyG()
+{
+    // TODO
 };
 
 void Scene::integrateAcceleration()
@@ -23,14 +27,19 @@ void Scene::integrateVelocities()
     // orientation += angularVelocity * dt;
 };
 
-void Scene::updatePosistions()
+void Scene::updatePositions()
 {
     // TODO
 };
 
 void Scene::step()
 {
-    // TODO
+    checkCollisions();
+    applyG();
+    integrateAcceleration();
+    applyImpulse();
+    integrateVelocities();
+    updatePositions();
 }
 
 void Scene::draw()

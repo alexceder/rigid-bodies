@@ -66,6 +66,14 @@ RigidBody::RigidBody(glm::vec2 p,
 { }
 
 /**
+ * Make sure to delete the shape also.
+ */
+~RigidBody()
+{
+    delete _shape;
+}
+
+/**
  * Calculate the impulse for the RigidBody
  * i.e. updating the velocity and angular velocity.
  *

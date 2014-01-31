@@ -10,10 +10,11 @@ private:
 public:
     Scene() { };
     void checkCollisions();
-    void applyImpulse();
+    void applyImpulse(); // Not sure if we need this.
+    void applyG();
     void integrateAcceleration();
     void integrateVelocities();
-    void updatePosistions();
+    void updatePositions();
     void step();
     void draw();
     void addBody(RigidBody *);
