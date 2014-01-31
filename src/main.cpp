@@ -28,7 +28,7 @@ int main( int argc, char* argv[] )
 
     // delete gEngine;
 
-    
+    std::cout << "HELLO" << std::endl;
 
     exit( EXIT_SUCCESS );
 }

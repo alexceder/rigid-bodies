@@ -14,13 +14,13 @@ int Circle::getType()
     return CIRCLE_SHAPE;
 }
 
-float calculateMass()
+float Circle::calculateMass()
 {
     float area = _radius * _radius * PI;
     return area * DENSITY;
 }
 
-float calculateMomentOfInertia()
+float Circle::calculateMomentOfInertia()
 {
     // Moment of inertia:
     // http://en.wikipedia.org/wiki/List_of_area_moments_of_inertia

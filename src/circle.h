@@ -1,6 +1,6 @@
 #include "precompiled.h"
 
-class Circle : public RigidBody {
+class Circle : public Shape {
 private:
     float _radius;
 

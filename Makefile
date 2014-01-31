@@ -5,7 +5,7 @@ CC = g++
 
 # Flags:
 # -Wall -pedantic
-CFLAGS = -O3 -s
+CFLAGS = -O3
 
 # More flags:
 ifeq ($(UNAME), Darwin)

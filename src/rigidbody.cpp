@@ -8,9 +8,7 @@
  * @param float o
  * @param Shape *s
  */
-RigidBody(glm::vec2 p,
-          float o,
-          Shape *s)
+RigidBody::RigidBody(glm::vec2 p, float o, Shape *s)
 : _position(p)
 , _orientation(o)
 , _shape(s)
@@ -41,17 +39,17 @@ RigidBody(glm::vec2 p,
  * @param float e
  * @param Shape *s
  */
-RigidBody(glm::vec2 p,
-          glm::vec2 v,
-          float o,
-          float av,
-          glm::vec2 f,
-          float t,
-          bool is,
-          float m,
-          float I,
-          float e,
-          Shape *s)
+RigidBody::RigidBody(glm::vec2 p,
+                     glm::vec2 v,
+                     float o,
+                     float av,
+                     glm::vec2 f,
+                     float t,
+                     bool is,
+                     float m,
+                     float I,
+                     float e,
+                     Shape *s)
 : _position(p)
 , _velocity(v)
 , _orientation(o)
@@ -73,8 +71,9 @@ RigidBody(glm::vec2 p,
  * @param const glm::vec2 &collisionVector
  * @return void
  */
-void applyImpulse(const glm::vec2 &impulse, const glm::vec2 &collisionVector)
+void RigidBody::applyImpulse(const glm::vec2 &impulse, const glm::vec2 &collisionVector)
 {
     _velocity += (1/_mass) * impulse;
-    _angularVelocity += (1/_momentOfInertia) * glm::cross(collisionVector, impulse);
+    // Maybe not glm::dot.
+    _angularVelocity += (1/_momentOfInertia) * glm::dot(collisionVector, impulse);
 }

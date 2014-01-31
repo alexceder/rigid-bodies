@@ -1,6 +1,6 @@
 #include "precompiled.h"
 
-class CollisionPair() {
+class CollisionPair {
 private:
     RigidBody* _A;
     RigidBody* _B;
@@ -10,8 +10,8 @@ private:
 
 public:
     CollisionPair() { };
-    CollisionPair(RigidBody*, RigidBody*, vec2, vec2, float) { };
-    float calculateImpulse(CollisionPair) { };
-    void applyImpulse(float) { };
-    glm::vec2 calculateCollisionNormal() { }; 
-}
+    CollisionPair(RigidBody *A, RigidBody *B);
+    float calculateImpulse(CollisionPair);
+    void applyImpulse(float);
+    glm::vec2 calculateCollisionNormal(RigidBody* A, RigidBody* B);
+};

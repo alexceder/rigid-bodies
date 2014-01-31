@@ -3,16 +3,17 @@
 
 class Scene {
 private:
-    Collision[] collisions[]; // pekare?
-    RigidBody[] bodies[];
-    const float dt;
+    // Collision[] collisions[];
+    // RigidBody[] bodies[];
+    float dt;
 
 public:
+    Scene() { };
     void checkCollisions();
-    void applyForces();
+    void applyImpulse();
     void integrateAcceleration();
     void integrateVelocities();
     void updatePosistions();
     void step();
     void draw();
-}
+};

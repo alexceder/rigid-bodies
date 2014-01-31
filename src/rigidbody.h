@@ -24,7 +24,7 @@ public:
               Shape *s);
 
     // Apply impulse to a RigidBody.
-    void applyImpulse(glm::vec2 impulse, glm::vec2 collisionNormal);
+    void applyImpulse(const glm::vec2 &impulse, const glm::vec2 &collisionNormal);
 
 // This is commented so I don't have to create getters and setters at this point in time.
 // private:
@@ -43,7 +43,7 @@ public:
 
     // Material
     float _mass;
-    float _momentOfInertia
+    float _momentOfInertia;
     float _restitution;
-    Shape *shape;
+    Shape *_shape;
 };
