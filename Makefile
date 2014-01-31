@@ -16,37 +16,38 @@ endif
 
 # Even more flags:
 ifeq ($(UNAME), Darwin)
-	MKDIR_FLAGS = -p 
+	MKDIR = mkdir -p bin 
 	LIBFOLD = -L"/opt/local/lib"
 	INCFOLD = -I"/opt/local/include"
 else
-	MKDIR_FLAGS = asd
+	MKDIR = 
 	LIBFOLD = -L"C:\sgct\lib"
 	INCFOLD = -I"C:\sgct\include"
 endif
 
 # Files:
 ifeq ($(UNAME), Darwin)
-	FILES = src/*.cpp
+	FILES = $(wildcard src/*.cpp)
 else
-	FILES = src\*.cpp
+	FILES = $(wildcard src/*.cpp)
 endif
 
 #Binary folder:
-ifeq ($(UNAME), Darwin)
-	BINFOLD = bin/
-else
-	BINFOLD = bin\\
-endif
+BINFOLD = bin/
 
 # Binary name:
-BINNAME = main
+ifeq ($(UNAME), Darwin)
+	BINNAME = main
+else
+	BINNAME = main.exe
+endif
+
 
 all: compile
 .PHONY: all
 
 compile: $(FILES)
-	mkdir $(MKDIR_FLAGS)$(BINFOLD)
+	$(MAKEDIR)
 	$(CC) $(CFLAGS) $(FILES) -o $(BINFOLD)$(BINNAME) $(LIBFOLD) $(INCFOLD) $(FRAMEWORKS)
 .PHONY: compile
 
