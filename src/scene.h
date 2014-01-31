@@ -3,7 +3,7 @@
 
 class Scene {
 private:
-    Collisions[] collisions[]; // pekare?
+    Collision[] collisions[]; // pekare?
     RigidBody[] bodies[];
     const float dt;
 
