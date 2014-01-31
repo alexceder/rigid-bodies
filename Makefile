@@ -32,7 +32,7 @@ else
 	FILES = $(wildcard src/*.cpp)
 endif
 
-#Binary folder:
+# Binary folder:
 BINFOLD = bin/
 
 # Binary name:
