@@ -1,12 +1,10 @@
 #include "precompiled.h"
 
-enum ShapeType {
-    Circle,
-    Polygon
-};
-
 class Shape {
+
 protected:
     virtual void draw();
-    // virtual ShapeType getType();
+    virtual int getType() = 0;
+    virtual float calculateMass() = 0;
+    virtual float calculateMomentOfInertia() = 0;
 };

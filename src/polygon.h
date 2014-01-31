@@ -7,4 +7,7 @@ public:
     Polygon() { };
 
     void draw();
+    int getType();
+    float calculateMass();
+    float calculateMomentOfInertia();
 };
