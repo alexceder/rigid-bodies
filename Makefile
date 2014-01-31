@@ -1,5 +1,3 @@
-UNAME = $(shell uname)
-
 # Compiler:
 CC = g++
 
@@ -8,29 +6,25 @@ CC = g++
 CFLAGS = -O3
 
 # More flags:
-ifeq ($(UNAME), Darwin)
-	FRAMEWORKS = -lsgct -framework Opengl -framework Cocoa -framework IOKit -stdlib=libstdc++
-else
+ifeq ($(OS), Windows_NT)
 	FRAMEWORKS = -lsgct32 -lopengl32 -lglu32 -lgdi32 -lws2_32 -static-libgcc -static-libstdc++
+else
+	FRAMEWORKS = -lsgct -framework Opengl -framework Cocoa -framework IOKit -stdlib=libstdc++
 endif
 
 # Even more flags:
-ifeq ($(UNAME), Darwin)
-	MKDIR = mkdir -p bin
-	LIBFOLD = -L"/usr/local/lib"
-	INCFOLD = -I"/usr/local/include"
-else
+ifeq ($(OS), Windows_NT)
 	MKDIR = 
 	LIBFOLD = -L"C:\sgct\lib"
 	INCFOLD = -I"C:\sgct\include"
+else
+	MKDIR = mkdir -p bin
+	LIBFOLD = -L"/usr/local/lib"
+	INCFOLD = -I"/usr/local/include"
 endif
 
 # Files:
-ifeq ($(UNAME), Darwin)
-	FILES = $(wildcard src/*.cpp)
-else
-	FILES = $(wildcard src/*.cpp)
-endif
+FILES = $(wildcard src/*.cpp)
 
 # Binary folder:
 BINFOLD = bin/
@@ -40,6 +34,12 @@ ifeq ($(UNAME), Darwin)
 	BINNAME = main
 else
 	BINNAME = main.exe
+endif
+
+ifeq ($(OS), Windows_NT)
+	FOO = this is windows
+else
+	FOO = this is not windows
 endif
 
 
@@ -53,6 +53,10 @@ compile: $(FILES)
 
 run:
 	./$(BINFOLD)$(BINNAME) -config "configs/single.xml"
+.PHONY: run
+
+talk:
+	$(FOO)
 .PHONY: run
 
 clean:

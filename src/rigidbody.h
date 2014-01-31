@@ -23,7 +23,8 @@ public:
               float e,
               Shape *s);
 
-    ~RigidBody();
+    // No idea how to implement this.
+    // ~RigidBody();
 
     // Apply impulse to a RigidBody.
     void applyImpulse(const glm::vec2 &impulse, const glm::vec2 &collisionNormal);

@@ -65,13 +65,14 @@ RigidBody::RigidBody(glm::vec2 p,
 , _shape(s)
 { }
 
+// No idea how this should work.
 /**
  * Make sure to delete the shape also.
  */
-~RigidBody()
-{
-    delete _shape;
-}
+// RigidBody::~RigidBody()
+// {
+//     delete _shape;
+// }
 
 /**
  * Calculate the impulse for the RigidBody
