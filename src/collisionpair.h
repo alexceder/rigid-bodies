@@ -1,4 +1,5 @@
-#include "precompiled.h"
+#ifndef COLLISIONPAIR_H
+#define COLLISIONPAIR_H
 
 class CollisionPair {
 private:
@@ -15,3 +16,5 @@ public:
     void applyImpulse(float);
     glm::vec2 calculateCollisionNormal(RigidBody* A, RigidBody* B);
 };
+
+#endif // COLLISIONPAIR_H

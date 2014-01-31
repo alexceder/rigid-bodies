@@ -16,7 +16,7 @@
 #include "circle.h"
 #include "collision.h"
 #include "polygon.h"
-#include "collisionPair.h"
+#include "collisionpair.h"
 #include "scene.h"
 
 #endif // PRECOMPILED_H

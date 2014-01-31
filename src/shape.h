@@ -1,5 +1,5 @@
-
-#include "precompiled.h"
+#ifndef SHAPE_H
+#define SHAPE_H
 
 class RigidBody;
 
@@ -12,3 +12,5 @@ public:
 
     RigidBody *_rigidBody;
 };
+
+#endif // SHAPE_H

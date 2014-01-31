@@ -1,4 +1,5 @@
-#include "precompiled.h"
+#ifndef SCENE_H
+#define SCENE_H
 
 class Scene {
 private:
@@ -19,3 +20,5 @@ public:
     void draw();
     void addBody(RigidBody *);
 };
+
+#endif // SCENE_H

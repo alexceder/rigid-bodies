@@ -1,4 +1,5 @@
-#include "precompiled.h"
+#ifndef CIRCLE_H
+#define CIRCLE_H
 
 class Circle : public Shape {
 private:
@@ -12,3 +13,5 @@ public:
     float calculateMass();
     float calculateMomentOfInertia();
 };
+
+#endif // CIRCLE_H
