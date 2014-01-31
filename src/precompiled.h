@@ -14,5 +14,6 @@
 #include "polygon.h"
 #include "scene.h"
 #include "vec2.h"
+#include "collisionPair.h"
 
 #endif // PRECOMPILED_H
