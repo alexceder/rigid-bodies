@@ -16,9 +16,9 @@ endif
 
 # Even more flags:
 ifeq ($(UNAME), Darwin)
-	MKDIR = mkdir -p bin 
-	LIBFOLD = -L"/opt/local/lib"
-	INCFOLD = -I"/opt/local/include"
+	MKDIR = mkdir -p bin
+	LIBFOLD = -L"/usr/local/lib"
+	INCFOLD = -I"/usr/local/include"
 else
 	MKDIR = 
 	LIBFOLD = -L"C:\sgct\lib"
