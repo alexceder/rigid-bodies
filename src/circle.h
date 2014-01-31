@@ -9,4 +9,6 @@ public:
 
     void draw();
     int getType();
+    float calculateMass();
+    float calculateMomentOfInertia();
 };
