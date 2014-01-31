@@ -7,7 +7,7 @@ private:
 public:
     Circle(float);
 
-    void draw();
+    void draw( glm::vec2 );
     int getType();
     float calculateMass();
     float calculateMomentOfInertia();
