@@ -1,10 +1,10 @@
 #include "precompiled.h"
 
-
 class Scene {
 private:
-    // Collision[] collisions[];
-    // RigidBody[] bodies[];
+    std::vector<RigidBody *> _bodies;
+    std::vector<int> _ints;
+    std::vector<CollisionPair *> _collisions;
     float dt;
 
 public:
@@ -16,4 +16,5 @@ public:
     void updatePosistions();
     void step();
     void draw();
+    void addBody(RigidBody *);
 };

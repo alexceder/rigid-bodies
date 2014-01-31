@@ -13,6 +13,8 @@ RigidBody::RigidBody(glm::vec2 p, float o, Shape *s)
 , _orientation(o)
 , _shape(s)
 {
+    _shape->_rigidBody = this;
+
     _mass = _shape->calculateMass();
     _momentOfInertia = _shape->calculateMomentOfInertia();
     _restitution = 0.6f;

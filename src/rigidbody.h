@@ -45,5 +45,6 @@ public:
     float _mass;
     float _momentOfInertia;
     float _restitution;
+
     Shape *_shape;
 };

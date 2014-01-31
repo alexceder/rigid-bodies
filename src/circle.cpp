@@ -4,24 +4,24 @@ Circle::Circle(float r)
 : _radius(r)
 { }
 
-void Circle::draw( glm::vec2 pos)
+void Circle::draw()
 {
     float num_segments = 25.0f;
-    float theta = 2 * PI / num_segments; 
-    float _cos = cosf(theta);//precalculate the sine and cosine
+    float theta = 2 * PI / num_segments;
+    float _cos = cosf(theta); //precalculate the sine and cosine
     float _sin = sinf(theta);
     float temp;
 
-    float x = _radius;//we start at angle = 0
+    float x = _radius; //we start at angle = 0
     float y = 0;
-    float xPos = pos[0];
-    float yPos = pos[1];
-    
-    glBegin(GL_LINE_LOOP); 
+    float xPos = _rigidBody->_position[0];
+    float yPos = _rigidBody->_position[1];
+
+    glBegin(GL_LINE_LOOP);
     for(int i = 0; i < num_segments; i++)
     {
-        glVertex2f(x + xPos, y + yPos);//output vertex 
-        
+        glVertex2f(x + xPos, y + yPos); //output vertex
+
         //apply the rotation matrix
         temp = x;
         x = _cos * x - _sin * y;
