@@ -27,9 +27,9 @@ endif
 
 # Files:
 ifeq ($(UNAME), Darwin)
-	FILES = src/*.cpp
+	FILES = $(wildcard src/*.cpp)
 else
-	FILES = src\*.cpp
+	FILES = $(wildcard src/*.cpp)
 endif
 
 #Binary folder:
