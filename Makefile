@@ -7,7 +7,7 @@ CFLAGS = -O3
 
 # More flags:
 ifeq ($(OS), Windows_NT)
-	FRAMEWORKS = -lsgct32 -lopengl32 -lglu32 -lgdi32 -lws2_32 -static-libgcc -static-libstdc++
+	FRAMEWORKS = -lsgct -lopengl32 -lglu32 -lgdi32 -lws2_32 -static-libgcc -static-libstdc++
 else
 	FRAMEWORKS = -lsgct -framework Opengl -framework Cocoa -framework IOKit -stdlib=libstdc++
 endif
@@ -15,7 +15,7 @@ endif
 # Even more flags:
 ifeq ($(OS), Windows_NT)
 	MKDIR = 
-	LIBFOLD = -L"C:\sgct\lib"
+	LIBFOLD = -L"C:\sgct\lib\mingw"
 	INCFOLD = -I"C:\sgct\include"
 else
 	MKDIR = mkdir -p bin
