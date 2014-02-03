@@ -24,9 +24,15 @@ void Scene::applyImpulse()
 
 void Scene::applyG()
 {
-    // TODO
+    float dt = 0.01667;
+    for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
+        (*it)->_velocity += glm::vec2(0, GRAVITATIONAL_FORCE) * dt / (*it)->_mass;
+        // std::cout << (*it)->_velocity[1] << std::endl;
+        // (*it)->_angularVelocity += dt / (*it)->_momentOfInertia;
+    }
 }
 
+// Do not think we need this.
 void Scene::integrateAcceleration()
 {
     // TODO
@@ -34,8 +40,12 @@ void Scene::integrateAcceleration()
 
 void Scene::integrateVelocities()
 {
-    // position += velocity * dt;
-    // orientation += angularVelocity * dt;
+    for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
+        (*it)->_position += (*it)->_velocity * dt;
+        std::cout << "velo: " << (*it)->_velocity[1] << std::endl;
+        std::cout << "pos:  " << (*it)->_position[1] << std::endl;
+        // (*it)->orient += (*it)->angularVelocity * dt;
+    }
 }
 
 void Scene::updatePositions()
