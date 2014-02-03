@@ -28,6 +28,11 @@ void Circle::draw()
         y = _sin * temp + _cos * y;
     }
     glEnd();
+
+    glBegin(GL_LINES);
+    glVertex2f(xPos, yPos);
+    glVertex2f(x + xPos, y + yPos);
+    glEnd();
 }
 
 int Circle::getType()
