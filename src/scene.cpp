@@ -40,6 +40,7 @@ void Scene::integrateAcceleration()
 
 void Scene::integrateVelocities()
 {
+    float dt = 0.01667;
     for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
         (*it)->_position += (*it)->_velocity * dt;
         std::cout << "velo: " << (*it)->_velocity[1] << std::endl;
