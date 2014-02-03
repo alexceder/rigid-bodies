@@ -16,6 +16,7 @@ public:
     void integrateAcceleration();
     void integrateVelocities();
     void updatePositions();
+    void clearStep();
     void step();
     void draw();
     void addBody(RigidBody *);

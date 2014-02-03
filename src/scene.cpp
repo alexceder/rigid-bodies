@@ -2,35 +2,46 @@
 
 void Scene::checkCollisions()
 {
-    // TODO
-};
+    for (std::vector<RigidBody *>::iterator itA = _bodies.begin() ; itA != _bodies.end(); ++itA) {
+        for (std::vector<RigidBody *>::iterator itB = _bodies.begin() ; itB != _bodies.end(); ++itB) {
+            // Do not continue if they are the same object
+            if (itA == itB) continue;
+
+            Collision *collision = new Collision(*itA, *itB);
+            CollisionPair *cp = collision->dispatcher();
+            if (cp != NULL) {
+                _collisions.push_back(cp);
+            }
+        }
+    }
+}
 
 // Not sure if we need this.
 void Scene::applyImpulse()
 {
     // TODO
-};
+}
 
 void Scene::applyG()
 {
     // TODO
-};
+}
 
 void Scene::integrateAcceleration()
 {
     // TODO
-};
+}
 
 void Scene::integrateVelocities()
 {
     // position += velocity * dt;
     // orientation += angularVelocity * dt;
-};
+}
 
 void Scene::updatePositions()
 {
     // TODO
-};
+}
 
 void Scene::step()
 {
@@ -40,6 +51,12 @@ void Scene::step()
     applyImpulse();
     integrateVelocities();
     updatePositions();
+    clearStep();
+}
+
+void Scene::clearStep()
+{
+    _collisions.clear();
 }
 
 void Scene::draw()

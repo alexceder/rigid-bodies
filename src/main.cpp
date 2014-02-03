@@ -36,14 +36,16 @@ int main( int argc, char* argv[] )
 void initOpenGL()
 {
     // ..
-    RigidBody *rb = new RigidBody(glm::vec2(0.0f, 0.0f), 0.0f, new Circle(0.5f));
+    RigidBody *rb1 = new RigidBody(glm::vec2(0.0f, 0.0f), 0.0f, new Circle(0.5f));
+    RigidBody *rb2 = new RigidBody(glm::vec2(0.8f, 0.0f), 0.0f, new Circle(0.5f));
 
-    scene->addBody(rb);
+    scene->addBody(rb1);
+    scene->addBody(rb2);
 }
 
 void calcPhysics()
 {
-    // scene->step();
+    scene->step();
 }
 
 void drawScene()
