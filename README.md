@@ -14,7 +14,7 @@ make && make run
 
 - SGCT 2.0.7 (https://c-student.itn.liu.se/wiki/develop:sgct:sgct)
 
-## The team:
+## The team
 
 - Philip Burridge
 - Dan Camarda
