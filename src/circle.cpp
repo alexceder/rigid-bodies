@@ -8,8 +8,8 @@ void Circle::draw()
 {
     float num_segments = 25.0f;
     float theta = 2 * PI / num_segments;
-    float _cos = cosf(theta);
-    float _sin = sinf(theta);
+    float _cos = cosf(theta + _rigidBody->_orientation);
+    float _sin = sinf(theta + _rigidBody->_orientation);
     float temp;
 
     float x = _radius;

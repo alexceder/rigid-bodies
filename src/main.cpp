@@ -37,7 +37,7 @@ void initOpenGL()
 {
     // ..
     RigidBody *rb1 = new RigidBody(glm::vec2(0.0f, 0.0f), 0.0f, new Circle(0.5f));
-    RigidBody *rb2 = new RigidBody(glm::vec2(0.8f, 0.0f), 0.0f, new Circle(0.5f));
+    RigidBody *rb2 = new RigidBody(glm::vec2(0.2f, 0.8f), 0.0f, new Circle(0.2f));
 
     scene->addBody(rb1);
     scene->addBody(rb2);

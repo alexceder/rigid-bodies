@@ -40,6 +40,8 @@ CollisionPair * Collision::circle2circle()
         // Faster than using Normalized since we already performed sqrt
         cp->_normal = normal / distance;
         cp->_collisions[0] = cp->_normal * shape_A->_radius + _A->_position;
+
+        //std::cout << "collisions aids: " << cp->_collisions[0][0] << " " << cp->_collisions[0][1] << std::endl;
     }
 
     return cp;
