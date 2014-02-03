@@ -12,7 +12,6 @@ CollisionPair * Collision::circle2circle()
 
     // Calculate translational vector, which is normal
     glm::vec2 normal = _B->_position - _A->_position;
-    std::cout << normal[0] << ", " << normal[1] << std::endl;
 
     // float dist_sqr = std::sqrt( normal.length() );
     float dist_sqr = glm::dot(normal, normal);

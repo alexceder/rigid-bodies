@@ -30,10 +30,10 @@ FILES = $(wildcard src/*.cpp)
 BINFOLD = bin/
 
 # Binary name:
-ifeq ($(UNAME), Darwin)
-	BINNAME = main
-else
+ifeq ($(OS), Windows_NT)
 	BINNAME = main.exe
+else
+	BINNAME = main
 endif
 
 ifeq ($(OS), Windows_NT)
