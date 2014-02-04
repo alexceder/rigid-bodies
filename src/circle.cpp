@@ -37,14 +37,13 @@ void Circle::draw()
     }
     glEnd();
 
-    glBegin(GL_LINES);
 
     temp1 = x1;
     x1 = cosAng * x1 - sinAng * y1;
     y1 = sinAng * temp1 + cosAng * y1;
-
-    glVertex2f(xPos, yPos);
-    glVertex2f(x1 + xPos, y1 + yPos);
+    glBegin(GL_LINES);
+        glVertex2f(xPos, yPos);
+        glVertex2f(x1 + xPos, y1 + yPos);
     glEnd();
 }
 

@@ -5,12 +5,15 @@ class Box : public Shape {
 
 public:
     Box() { };
-    Box(glm::vec2, glm::vec2);
+    Box(float, float);
 
     void draw();
     int getType();
     float calculateMass();
     float calculateMomentOfInertia();
+
+    float _base;
+    float _height;
 
     glm::vec2 _min;
     glm::vec2 _max;

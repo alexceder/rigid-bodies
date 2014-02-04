@@ -6,6 +6,9 @@ Scene *scene;
 void initOpenGL();
 void calcPhysics();
 void drawScene();
+void keyCallback(int key, int action);
+
+bool stop = false;
 
 int main( int argc, char* argv[] )
 {
@@ -17,6 +20,7 @@ int main( int argc, char* argv[] )
     gEngine->setInitOGLFunction( initOpenGL );
     gEngine->setPreSyncFunction( calcPhysics );
     gEngine->setDrawFunction( drawScene );
+    gEngine->setKeyboardCallbackFunction( keyCallback );
 
     // Init the engine
     if( !gEngine->init() )
@@ -36,24 +40,27 @@ int main( int argc, char* argv[] )
 void initOpenGL()
 {
     // Dynamic objects
-    RigidBody *rb1 = new RigidBody(glm::vec2(0.2f, 0.0f), 0.0f, new Circle(0.2f));
-    RigidBody *rb2 = new RigidBody(glm::vec2(0.05f, 0.5f), 0.0f, new Circle(0.1f));
+    RigidBody *rb1 = new RigidBody(glm::vec2(0.0f, 0.3f), 0.0f, new Circle(0.1f));
+    RigidBody *rb2 = new RigidBody(glm::vec2(0.0f, 0.2f), 0.0f, new Circle(0.2f));
 
     // Ground
-    RigidBody *rb3 = new RigidBody(glm::vec2(-0.2f, 0.0f), 0.0f, new Box(glm::vec2(-0.8, -0.8), glm::vec2(0.8, -0.9)));
-    rb3->_isStatic = true;
+    // RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.8f), 0.0f, new Box(1.6f, 0.1f));
+    // rb3->_isStatic = true;
+    // Ground
+    RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.6f), 0.0f, new Circle(0.4f));
+    //rb3->_isStatic = true;
 
     // Fence
-    RigidBody *rb4 = new RigidBody(glm::vec2(-0.2f, 0.0f), 0.0f, new Box(glm::vec2(-0.8, -0.5), glm::vec2(-0.7, -0.75)));
-    rb4->_isStatic = true;
-    RigidBody *rb5 = new RigidBody(glm::vec2(-0.2f, 0.0f), 0.0f, new Box(glm::vec2(0.8, -0.5), glm::vec2(0.7, -0.75)));
-    rb5->_isStatic = true;
+    // RigidBody *rb4 = new RigidBody(glm::vec2(-0.8f, -0.6f), 0.0f, new Box(0.1f, 0.2f));
+    // rb4->_isStatic = true;
+    // RigidBody *rb5 = new RigidBody(glm::vec2(0.8f, -0.6f), 0.0f, new Box(0.1f, 0.2f));
+    // rb5->_isStatic = true;
 
     scene->addBody(rb1);
     scene->addBody(rb2);
     scene->addBody(rb3);
-    scene->addBody(rb4);
-    scene->addBody(rb5);
+    // scene->addBody(rb4);
+    // scene->addBody(rb5);
 }
 
 void calcPhysics()
@@ -63,5 +70,11 @@ void calcPhysics()
 
 void drawScene()
 {
+    // scene->step();
     scene->draw();
+}
+
+void keyCallback(int key, int action)
+{
+    // TODO
 }
