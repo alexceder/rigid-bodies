@@ -11,9 +11,13 @@ public:
     Collision(RigidBody *A, RigidBody *B);
 
     CollisionPair * circle2circle();
-    CollisionPair * circle2polygon();
-    CollisionPair * polygon2circle();
-    CollisionPair * polygon2polygon();
+    CollisionPair * box2circle();
+    CollisionPair * circle2box();
+
+    // laters homie
+    // CollisionPair * circle2polygon();
+    // CollisionPair * polygon2circle();
+    // CollisionPair * polygon2polygon();
 
     CollisionPair * dispatcher();
 };

@@ -35,12 +35,25 @@ int main( int argc, char* argv[] )
 
 void initOpenGL()
 {
-    // ..
-    RigidBody *rb1 = new RigidBody(glm::vec2(0.0f, 0.0f), 0.0f, new Circle(0.5f));
-    RigidBody *rb2 = new RigidBody(glm::vec2(0.8f, 0.0f), 0.0f, new Circle(0.5f));
+    // Dynamic objects
+    RigidBody *rb1 = new RigidBody(glm::vec2(0.2f, 0.0f), 0.0f, new Circle(0.2f));
+    RigidBody *rb2 = new RigidBody(glm::vec2(-0.2f, 0.0f), 0.0f, new Circle(0.1f));
+
+    // Ground
+    RigidBody *rb3 = new RigidBody(glm::vec2(-0.2f, 0.0f), 0.0f, new Box(glm::vec2(-0.8, -0.8), glm::vec2(0.8, -0.9)));
+    rb3->_isStatic = true;
+
+    // Fence
+    RigidBody *rb4 = new RigidBody(glm::vec2(-0.2f, 0.0f), 0.0f, new Box(glm::vec2(-0.8, -0.5), glm::vec2(-0.7, -0.75)));
+    rb4->_isStatic = true;
+    RigidBody *rb5 = new RigidBody(glm::vec2(-0.2f, 0.0f), 0.0f, new Box(glm::vec2(0.8, -0.5), glm::vec2(0.7, -0.75)));
+    rb5->_isStatic = true;
 
     scene->addBody(rb1);
     scene->addBody(rb2);
+    scene->addBody(rb3);
+    scene->addBody(rb4);
+    scene->addBody(rb5);
 }
 
 void calcPhysics()
