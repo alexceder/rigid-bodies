@@ -42,10 +42,10 @@ float CollisionPair::calculateImpulse(CollisionPair *cp) //cp bästa vi kom på
     // 3.
     glm::vec2 perpAP = glm::vec2(-(_collisions[0][1] - _A->_position[1]), _collisions[0][0] - _A->_position[0]);
     glm::vec2 perpBP = glm::vec2(-(_collisions[0][1] - _B->_position[1]), _collisions[0][0] - _B->_position[0]);
-    
+
     // 4.
     float numerator = -(1 - _B->_restitution) * glm::dot(velocityAB, _normal);
-    
+
     // 5.
     float denominator = glm::dot(_normal, _normal) * ((1 / _A->_mass) + (1 / _B->_mass))
                         + (glm::dot(perpAP, _normal) * glm::dot(perpBP, _normal)) / _A->_momentOfInertia
