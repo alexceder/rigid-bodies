@@ -11,17 +11,15 @@ void Circle::draw()
     float _cos = cosf(theta);
     float _sin = sinf(theta);
     float temp;
-    float temp1;
-
-    float cosAng = cosf(_rigidBody->_orientation);
-    float sinAng = sinf(_rigidBody->_orientation);
-
-    //std::cout << "cosAng: " << cosAng << std::endl;
-
     float x = _radius;
     float y = 0;
-    float x1 = _radius;
-    float y1 = 0;
+    
+    float cosAng = cosf(_rigidBody->_orientation);
+    float sinAng = sinf(_rigidBody->_orientation);
+    float lineX = _radius;
+    float lineY = 0;
+    float tempLine;
+
     float xPos = _rigidBody->_position[0];
     float yPos = _rigidBody->_position[1];
 
@@ -37,13 +35,13 @@ void Circle::draw()
     }
     glEnd();
 
-
-    temp1 = x1;
-    x1 = cosAng * x1 - sinAng * y1;
-    y1 = sinAng * temp1 + cosAng * y1;
     glBegin(GL_LINES);
-        glVertex2f(xPos, yPos);
-        glVertex2f(x1 + xPos, y1 + yPos);
+    tempLine = lineX;
+    lineX = cosAng * lineX - sinAng * lineY;
+    lineY = sinAng * tempLine + cosAng * lineY;
+
+    glVertex2f(xPos, yPos);
+    glVertex2f(lineX + xPos, lineY + yPos);
     glEnd();
 }
 
