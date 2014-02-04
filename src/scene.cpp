@@ -31,9 +31,10 @@ void Scene::applyG()
 {
     float dt = 0.01667;
     for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
+     
         (*it)->_velocity += glm::vec2(0, GRAVITATIONAL_FORCE) * dt / (*it)->_mass;
-        // std::cout << (*it)->_velocity[1] << std::endl;
-        // (*it)->_angularVelocity += dt / (*it)->_momentOfInertia;
+        (*it)->_angularVelocity += ((*it)->_torque * dt / (*it)->_momentOfInertia);
+         std::cout << "ang Vel: " << (*it)->_velocity[1] << std::endl;
     }
 }
 
@@ -50,7 +51,7 @@ void Scene::integrateVelocities()
         (*it)->_position += (*it)->_velocity * dt;
 
         //std::cout << "velo: " << (*it)->_velocity[1] << std::endl;
-        std::cout << "pos:  " << (*it)->_orientation << std::endl;
+        //std::cout << "pos:  " << (*it)->_orientation << std::endl;
         (*it)->_orientation += (*it)->_angularVelocity * dt;
     }
 }

@@ -57,7 +57,7 @@ float CollisionPair::calculateImpulse(CollisionPair *cp) //cp bästa vi kom på
         -(1 + restitution) * hastighet i kollision * kollisionsnormalen
     */   
     
-    float numerator = -(1 + _B->_restitution) * glm::dot(velocityAB, _normal);
+    float numerator = -(1 - _B->_restitution) * glm::dot(velocityAB, _normal);
     
     /**
     5. NÄMNAREN
@@ -99,15 +99,11 @@ void CollisionPair::applyImpulse() //var float innan. ska den verkligen returna 
     
     float impulse = calculateImpulse(this);
 
-
-
-    _A -> _velocity = _A -> _velocity + (impulse / _A -> _mass) * _normal;
-    _B -> _velocity = _B -> _velocity - (impulse / _B -> _mass) * _normal;
-
-
     glm::vec2 velocityAP = _A->_velocity + _A->_angularVelocity * _normal;
     glm::vec2 velocityBP = _B->_velocity + _B->_angularVelocity * _normal;
 
+    _A -> _velocity = _A -> _velocity + (impulse / _A -> _mass) * _normal;
+    _B -> _velocity = _B -> _velocity - (impulse / _B -> _mass) * _normal;
 
     //vektorerna vinkelräta mot r_ap resp. r_bp
    // glm::vec2 perpAP = (velocityAP - _A->_velocity)/_A->_angularVelocity;
