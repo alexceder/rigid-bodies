@@ -5,7 +5,7 @@ CollisionPair::CollisionPair(RigidBody *A, RigidBody *B)
 , _B(B)
 { };
 
-float CollisionPair::calculateImpulse(CollisionPair *cp) //cp bästa vi kom på
+float CollisionPair::calculateImpulse(CollisionPair *cp)
 {
     /*
     1. Ta ut hastigheterna i kollisionspunkterna
@@ -79,18 +79,16 @@ void CollisionPair::applyImpulse()
     float impulse = calculateImpulse(this);
 
     // 1 & 2.
-    _A -> _velocity = _A -> _velocity + (impulse / _A -> _mass) * _normal;
-    _B -> _velocity = _B -> _velocity - (impulse / _B -> _mass) * _normal;
+    _A->_velocity = _A->_velocity + (impulse / _A->_mass) * _normal;
+    _B->_velocity = _B->_velocity - (impulse / _B->_mass) * _normal;
 
     // Vinkelräta vektorn mot r_ab
     glm::vec2 perpAP = glm::vec2(-(_collisions[0][1] - _A->_position[1]), _collisions[0][0] - _A->_position[0]);
     glm::vec2 perpBP = glm::vec2(-(_collisions[0][1] - _B->_position[1]), _collisions[0][0] - _B->_position[0]);
 
-    // 3.
-    _A -> _angularVelocity = _A -> _angularVelocity + ( glm::dot(perpAP, impulse * _normal) ) / _A -> _momentOfInertia;
-
-    // 4.
-    _B -> _angularVelocity = _B -> _angularVelocity + ( glm::dot(perpBP, impulse * _normal) ) / _B -> _momentOfInertia;
+    // 3 & 4.
+    _A->_angularVelocity += ( glm::dot(perpAP, impulse * _normal) ) / _A->_momentOfInertia;
+    _B->_angularVelocity += ( glm::dot(perpBP, impulse * _normal) ) / _B->_momentOfInertia;
 }
 
 void CollisionPair::correctPosition()

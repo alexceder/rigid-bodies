@@ -40,14 +40,14 @@ int main( int argc, char* argv[] )
 void initOpenGL()
 {
     // Dynamic objects
-    RigidBody *rb1 = new RigidBody(glm::vec2(0.0f, 0.3f), 0.0f, new Circle(0.1f));
-    RigidBody *rb2 = new RigidBody(glm::vec2(0.0f, 0.2f), 0.0f, new Circle(0.2f));
+    RigidBody *rb1 = new RigidBody(glm::vec2(-0.1f, 0.9f), 0.0f, new Circle(0.1f));
+    RigidBody *rb2 = new RigidBody(glm::vec2(0.1f, 0.6f), 0.0f, new Circle(0.2f));
 
     // Ground
     // RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.8f), 0.0f, new Box(1.6f, 0.1f));
     // rb3->_isStatic = true;
     // Ground
-    RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.6f), 0.0f, new Circle(0.4f));
+    RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.2f), 0.0f, new Circle(0.4f));
     //rb3->_isStatic = true;
 
     // Fence
