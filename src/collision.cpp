@@ -49,7 +49,7 @@ CollisionPair * Collision::circle2circle()
 
 CollisionPair * Collision::box2circle()
 {
-    Box *shape_A = reinterpret_cast<Circle *>(_A->_shape);
+    Box *shape_A = reinterpret_cast<Box *>(_A->_shape);
     Circle *shape_B = reinterpret_cast<Circle *>(_B->_shape);
 
     // CollisionPair *cp = new CollisionPair(_A, _B);
@@ -63,7 +63,7 @@ CollisionPair * Collision::circle2box()
     RigidBody *temp = _A;
     _A = _B;
     _B = temp;
-    return circle2box;
+    return circle2box();
 }
 
 CollisionPair * Collision::dispatcher()
