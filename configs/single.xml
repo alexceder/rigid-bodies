@@ -3,7 +3,7 @@
     <Node address="localhost" port="20401">
         <Window fullScreen="false">
             <!-- 16:9 aspect ratio -->
-            <Size x="640" y="360" />
+            <Size x="960" y="540" />
             <Viewport>
                 <Pos x="0.0" y="0.0" />
                 <Size x="1.0" y="1.0" />
@@ -19,6 +19,6 @@
         </Window>
     </Node>
     <User eyeSeparation="0.065">
-        <Pos x="0.0" y="0.0" z="4.0" />
+        <Pos x="0.0" y="0.0" z="10.0" />
     </User>
 </Cluster>

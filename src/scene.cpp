@@ -31,7 +31,8 @@ void Scene::applyG()
 {
     float dt = 0.01667;
     for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
-     
+        if ( (*it)->_isStatic ) continue;
+
         (*it)->_velocity += glm::vec2(0, GRAVITATIONAL_FORCE) * dt / (*it)->_mass;
         (*it)->_angularVelocity += ((*it)->_torque * dt / (*it)->_momentOfInertia);
          std::cout << "ang Vel: " << (*it)->_velocity[1] << std::endl;

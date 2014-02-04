@@ -85,6 +85,6 @@ RigidBody::RigidBody(glm::vec2 p,
 void RigidBody::applyImpulse(const glm::vec2 &impulse, const glm::vec2 &collisionVector)
 {
     _velocity += (1/_mass) * impulse;
-    // Maybe not glm::dot.
+    // Maybe not glm::dot should be cross product, I think.
     _angularVelocity += (1/_momentOfInertia) * glm::dot(collisionVector, impulse);
 }
