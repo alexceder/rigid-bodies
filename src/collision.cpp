@@ -63,7 +63,7 @@ CollisionPair * Collision::circle2box()
     RigidBody *temp = _A;
     _A = _B;
     _B = temp;
-    return circle2box();
+    return box2circle();
 }
 
 CollisionPair * Collision::dispatcher()

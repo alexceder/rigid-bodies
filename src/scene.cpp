@@ -8,7 +8,9 @@ void Scene::checkCollisions()
             if (itA == itB) continue;
 
             Collision *collision = new Collision(*itA, *itB);
+            std::cout << "IS IT WORKING YET" << std::endl;
             CollisionPair *cp = collision->dispatcher();
+            std::cout << "IS IT WORKING YET, STILL?" << std::endl;
             if (cp != NULL) {
                 _collisions.push_back(cp);
             }
@@ -35,7 +37,7 @@ void Scene::applyG()
 
         (*it)->_velocity += glm::vec2(0, GRAVITATIONAL_FORCE) * dt / (*it)->_mass;
         (*it)->_angularVelocity += ((*it)->_torque * dt / (*it)->_momentOfInertia);
-         std::cout << "ang Vel: " << (*it)->_velocity[1] << std::endl;
+        std::cout << "ang Vel: " << (*it)->_velocity[1] << std::endl;
     }
 }
 

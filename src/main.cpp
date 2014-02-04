@@ -37,7 +37,7 @@ void initOpenGL()
 {
     // Dynamic objects
     RigidBody *rb1 = new RigidBody(glm::vec2(0.2f, 0.0f), 0.0f, new Circle(0.2f));
-    RigidBody *rb2 = new RigidBody(glm::vec2(-0.2f, 0.0f), 0.0f, new Circle(0.1f));
+    RigidBody *rb2 = new RigidBody(glm::vec2(0.05f, 0.5f), 0.0f, new Circle(0.1f));
 
     // Ground
     RigidBody *rb3 = new RigidBody(glm::vec2(-0.2f, 0.0f), 0.0f, new Box(glm::vec2(-0.8, -0.8), glm::vec2(0.8, -0.9)));
