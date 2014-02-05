@@ -25,10 +25,8 @@ void Scene::checkCollisions()
 void Scene::getImpulse()
 {
     for (std::vector<CollisionPair *>::iterator it = _collisions.begin() ; it != _collisions.end(); it++) {
-        //(*it)->CollisionPair::applyImpulse();
+        std::cout << (*it)->_A << (*it)->_B << std::endl << std::endl;
         (*it)->applyImpulse();
-        //std::cout << "velocity A: " << (*it)->_A->_velocity[1] << std::endl;
-        //std::cout << "collisions: " << (*it)->_collisions[0][0] << "   " << (*it)->_collisions[0][1] << std::endl;
     }
 }
 
@@ -36,8 +34,6 @@ void Scene::applyG()
 {
     float dt = 0.01667;
     for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
-        if ( (*it)->_isStatic ) continue;
-
         (*it)->_velocity += glm::vec2(0, GRAVITATIONAL_FORCE) * dt / (*it)->_mass;
         (*it)->_angularVelocity += ((*it)->_torque * dt / (*it)->_momentOfInertia);
     }
@@ -53,10 +49,8 @@ void Scene::integrateVelocities()
 {
     float dt = 0.01667;
     for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
+        if ( (*it)->_isStatic ) continue;
         (*it)->_position += (*it)->_velocity * dt;
-
-        //std::cout << "velo: " << (*it)->_velocity[1] << std::endl;
-        //std::cout << "pos:  " << (*it)->_orientation << std::endl;
         (*it)->_orientation += (*it)->_angularVelocity * dt;
     }
 }

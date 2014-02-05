@@ -5,7 +5,7 @@ CollisionPair::CollisionPair(RigidBody *A, RigidBody *B)
 , _B(B)
 { };
 
-float CollisionPair::calculateImpulse(CollisionPair *cp)
+float CollisionPair::calculateImpulse()
 {
     /*
     1. Ta ut hastigheterna i kollisionspunkterna
@@ -76,7 +76,10 @@ void CollisionPair::applyImpulse()
         w_b2 = w_b1 + (r_bp(_|_) * impuls * n) / I_b
     */
 
-    float impulse = calculateImpulse(this);
+    float impulse = calculateImpulse() * 5.0f;
+
+    std::cout << "IMPULSE: " << impulse << std::endl;
+    std::cout << _normal[0] << ", " << _normal[1] << std::endl;
 
     // 1 & 2.
     _A->_velocity = _A->_velocity + (impulse / _A->_mass) * _normal;
@@ -96,12 +99,6 @@ void CollisionPair::correctPosition()
     const float k_slop = 0.05f; // Penetration allowance
     const float percent = 0.4f; // Penetration percentage to correct
     glm::vec2 correction = (std::max( _penetration - k_slop, 0.0f ) / ((1/_A->_mass) + (1/_B->_mass))) * _normal * percent;
-    _A->_position -= correction / _A->_mass;
-    _B->_position += correction / _B->_mass;
-}
-
-glm::vec2 CollisionPair::calculateCollisionNormal(RigidBody* A, RigidBody* B)
-{
-    _normal = glm::vec2(B->_position[0] + A->_position[0], B->_position[1] + A->_position[1]);
-    return _normal;
+    if ( !_A->_isStatic) _A->_position -= correction / _A->_mass;
+    if ( !_B->_isStatic) _B->_position += correction / _B->_mass;
 }

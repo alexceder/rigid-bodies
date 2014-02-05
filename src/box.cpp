@@ -1,6 +1,5 @@
 #include "precompiled.h"
 
-
 Box::Box(float b, float h)
 : _base(b)
 , _height(h)
@@ -31,11 +30,10 @@ int Box::getType()
 
 float Box::calculateMass()
 {
-    return (_min[0] - _max[0]) * (_min[1] - _max[1])  * DENSITY;
+    return _base * _height  * DENSITY;
 }
 
 float Box::calculateMomentOfInertia()
 {
-    float h = _min[1] - _max[1];
-    return (_min[0] - _max[0]) * h * h * h / 12;
+    return _base * _height * _height * _height / 12;
 }

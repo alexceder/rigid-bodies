@@ -7,15 +7,15 @@ Collision::Collision(RigidBody *a, RigidBody *b)
 
 CollisionPair * Collision::circle2circle()
 {
-    Circle *shape_A = reinterpret_cast<Circle *>(_A->_shape);
-    Circle *shape_B = reinterpret_cast<Circle *>(_B->_shape);
+    Circle *shapeA = reinterpret_cast<Circle *>(_A->_shape);
+    Circle *shapeB = reinterpret_cast<Circle *>(_B->_shape);
 
     // Calculate translational vector, which is normal
     glm::vec2 normal = _B->_position - _A->_position;
 
     // float dist_sqr = std::sqrt( normal.length() );
     float dist_sqr = glm::dot(normal, normal);
-    float radius = shape_A->_radius + shape_B->_radius;
+    float radius = shapeA->_radius + shapeB->_radius;
 
     // Not in contact
     if (dist_sqr >= radius * radius) {
@@ -33,14 +33,14 @@ CollisionPair * Collision::circle2circle()
     if (distance == 0.0f) {
         assert(false);
 
-        cp->_penetration = shape_A->_radius;
+        cp->_penetration = shapeA->_radius;
         cp->_normal = glm::vec2(1.0f, 0.0f);
         cp->_collisions[0] = _A->_position;
     } else {
         cp->_penetration = radius - distance;
         // Faster than using Normalized since we already performed sqrt
         cp->_normal = normal / distance;
-        cp->_collisions[0] = cp->_normal * shape_A->_radius + _A->_position;
+        cp->_collisions[0] = cp->_normal * shapeA->_radius + _A->_position;
 
         //std::cout << "collisions aids: " << cp->_collisions[0][0] << " " << cp->_collisions[0][1] << std::endl;
     }
@@ -50,7 +50,7 @@ CollisionPair * Collision::circle2circle()
 
 
 bool operator==(const glm::vec2 &vecA, const glm::vec2 &vecB) {
-    const double epsilion = 0.0001;
+    const double epsilion = 0.001;
     return fabs(vecA[0] -vecB[0]) < epsilion && fabs(vecA[1] -vecB[1]) < epsilion;
 }
 
@@ -59,83 +59,162 @@ CollisionPair * Collision::box2circle()
     Box *shapeA = reinterpret_cast<Box *>(_A->_shape);
     Circle *shapeB = reinterpret_cast<Circle *>(_B->_shape);
 
-    std::cout << "A-POS: " << _A->_position[0] << ", " << _A->_position[1] << std::endl;
-    std::cout << "B-POS: " << _B->_position[0] << ", " << _B->_position[1] << std::endl;
+    glm::vec2 closest;
+    closest[0] = glm::clamp(_B->_position[0], _A->_position[0] - shapeA->_base/2, _A->_position[0] + shapeA->_base/2);
+    closest[1] = glm::clamp(_B->_position[1], _A->_position[1] - shapeA->_height/2, _A->_position[1] + shapeA->_height/2);
 
-    glm::vec2 normal = _B->_position - _A->_position;
+    glm::vec2 normal = _B->_position - closest;
 
-    glm::vec2 closest = normal;
-
-    // glBegin(GL_LINES);
-    //     glColor3f(1.0f, 0.0f, 0.0f);
-    //     glVertex2f(_A->_position[0], _A->_position[1]);
-    //     glVertex2f(_B->_position[0], _B->_position[1]);
-    //     glColor3f(1.0f, 1.0f, 1.0f);
-    // glEnd();
-
-    // Calculate half extents along each axis
-    float x_extent = (shapeA->_max[0] - shapeA->_min[0]) / 2;
-    float y_extent = (shapeA->_max[1] - shapeA->_min[1]) / 2;
-
-    // Clamp point to edges of the AABB
-    closest[0] = glm::clamp(closest[0], -x_extent, x_extent);
-    closest[1] = glm::clamp(closest[1], -y_extent, y_extent);
-
-    bool inside = false;
-
-    // Circle is inside the AABB, so we need to clamp the circle's center to the closest edge
-    if (normal == closest) {
-        inside = true;
-
-        // Find closest axis
-        if (glm::abs(normal[0]) > glm::abs(normal[1])) {
-            // Clamp to closest extent
-            if (closest[0] > 0)
-                closest[0] = x_extent;
-            else
-                closest[0] = -x_extent;
-        }
-        // y axis is shorter
-        else {
-          // Clamp to closest extent
-            if (closest[1] > 0)
-                closest[1] = y_extent;
-            else
-                closest[1] = -y_extent;
-        }
-    }
-
-    glm::vec2 collisionNormal = normal - closest;
-    float d = glm::dot(collisionNormal, collisionNormal);
-    float r = shapeB->_radius;
+    float distance_squared = glm::dot(normal, normal);
 
     glBegin(GL_LINES);
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex2f(_A->_position[0], _A->_position[1]);
-        glVertex2f(collisionNormal[0], collisionNormal[1]);
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glVertex2f(_B->_position[0], _B->_position[1]);
+        glVertex2f(closest[0], closest[1]);
         glColor3f(1.0f, 1.0f, 1.0f);
     glEnd();
 
-    // Early out of the radius is shorter than distance to closest point and Circle not inside the AABB
-    if (d > r * r && !inside)
-        return NULL;
+    // std::cout << distance_squared << " < " << (shapeB->_radius * shapeB->_radius) << std::endl;
 
-    // Avoided sqrt until we needed
-    d = std::sqrt( d );
-
-    CollisionPair *cp = new CollisionPair(_A, _B);
-
-    // Collision normal needs to be flipped to point outside if circle was inside the AABB
-    if (inside) {
-        cp->_normal = -normal;
-        cp->_penetration = r + d;
-    } else {
+    if (distance_squared < shapeB->_radius * shapeB->_radius) {
+        CollisionPair *cp = new CollisionPair(_A, _B);
+        cp->_collision_count = 1;
+        cp->_penetration = shapeB->_radius - normal.length();
         cp->_normal = normal;
-        cp->_penetration = r + d;
+        cp->_collisions[0] = closest;
+        return cp;
     }
 
-    std::cout << "BOX 2 CIRCLE, BITCH!" << std::endl;
-    return cp;
+    // CollisionPair *cp = new CollisionPair(_A, _B);
+    // cp->_collision_count = 1;
+    // cp->_penetration = 0.000000001f;
+    // cp->_normal = glm::vec2(0.0f, 0.2f);
+    // cp->_collisions[0] = _B->_position;
+
+    return NULL;
+
+
+
+
+    // glm::vec2 distance;
+    // distance[0] = fabs(_B->_position[0] - _A->_position[0]);
+    // distance[1] = fabs(_B->_position[1] - _A->_position[1]);
+
+    // if (distance[0] > (shapeA->_base/2 + shapeB->_radius)) return NULL;
+    // if (distance[1] > (shapeA->_height/2 + shapeB->_radius)) return NULL;
+
+    // if (distance[0] <= (shapeA->_base/2)) std::cout << "COLLISION 1" << std::endl;
+    // if (distance[1] <= (shapeA->_height/2)) std::cout << "COLLISION 2" << std::endl;
+
+    // // CollisionPair *cp = new CollisionPair(_A, _B);
+    // // cp->_collision_count = 1;
+    // // cp->_penetration = 0.000000001f;
+    // // cp->_normal = glm::vec2(0.0f, 0.2f);
+    // // cp->_collisions[0] = _B->_position;
+
+    // return cp;
+
+
+
+
+
+    // std::cout << "A-POS: " << _A->_position[0] << ", " << _A->_position[1] << std::endl;
+    // std::cout << "B-POS: " << _B->_position[0] << ", " << _B->_position[1] << std::endl;
+
+    // glm::vec2 normal = _B->_position - _A->_position;
+
+    // // glBegin(GL_LINES);
+    // //     glColor3f(0.0f, 1.0f, 0.0f);
+    // //     glVertex2f(_A->_position[0], _A->_position[1]);
+    // //     glVertex2f(_B->_position[0], _B->_position[1]);
+    // //     glColor3f(1.0f, 1.0f, 1.0f);
+    // // glEnd();
+
+    // // glBegin(GL_LINES);
+    // //     glColor3f(0.0f, 0.0f, 1.0f);
+    // //     glVertex2f(normal[0], normal[1]);
+    // //     glVertex2f(normal[0]*0.2f, normal[1]*0.2f);
+    // //     glColor3f(1.0f, 1.0f, 1.0f);
+    // // glEnd();
+
+    // glm::vec2 closest = normal;
+
+    // // Calculate half extents along each axis
+    // float x_extent = (shapeA->_max[0] - shapeA->_min[0]) / 2;
+    // float y_extent = (shapeA->_max[1] - shapeA->_min[1]) / 2;
+
+    // // Clamp point to edges of the AABB
+    // closest[0] = glm::clamp(closest[0], -x_extent, x_extent);
+    // closest[1] = glm::clamp(closest[1], -y_extent, y_extent);
+
+    // // glBegin(GL_LINES);
+    // //     glColor3f(0.0f, 1.0f, 1.0f);
+    // //     glVertex2f(closest[0], closest[1]);
+    // //     glVertex2f(closest[0]*20, closest[1]*20);
+    // //     glColor3f(1.0f, 1.0f, 1.0f);
+    // // glEnd();
+
+    // bool inside = false;
+
+    // std::cout << "(" << normal[0] << ", " << normal[1] << ")" << std::endl;
+    // std::cout << "(" << closest[0] << ", " << closest[1] << ")" << std::endl << std::endl;
+
+    // // Circle is inside the AABB, so we need to clamp the circle's center to the closest edge
+    // if (normal == closest) {
+    //     // assert(false);
+    //     inside = true;
+
+    //     // Find closest axis
+    //     if (glm::abs(normal[0]) > glm::abs(normal[1])) {
+    //         // Clamp to closest extent
+    //         if (closest[0] > 0)
+    //             closest[0] = x_extent;
+    //         else
+    //             closest[0] = -x_extent;
+    //     }
+    //     // y axis is shorter
+    //     else {
+    //       // Clamp to closest extent
+    //         if (closest[1] > 0)
+    //             closest[1] = y_extent;
+    //         else
+    //             closest[1] = -y_extent;
+    //     }
+    // }
+
+    // inside = true;
+
+    // glm::vec2 collisionNormal = normal - closest;
+    // float d = glm::dot(collisionNormal, collisionNormal);
+    // float r = shapeB->_radius;
+
+    // // glBegin(GL_LINES);
+    // //     glColor3f(1.0f, 0.0f, 0.0f);
+    // //     glVertex2f(_A->_position[0], _A->_position[1]);
+    // //     glVertex2f(collisionNormal[0], collisionNormal[1]);
+    // //     glColor3f(1.0f, 1.0f, 1.0f);
+    // // glEnd();
+
+    // // Early out of the radius is shorter than distance to closest point and Circle not inside the AABB
+    // if (d > r * r && !inside)
+    //     return NULL;
+
+    // // Avoided sqrt until we needed
+    // d = std::sqrt( d );
+
+    // CollisionPair *cp = new CollisionPair(_A, _B);
+
+    // // Collision normal needs to be flipped to point outside if circle was inside the AABB
+    // if (inside) {
+    //     cp->_normal = -normal;
+    //     cp->_penetration = r + d;
+    // } else {
+    //     cp->_normal = normal;
+    //     cp->_penetration = r + d;
+    // }
+
+    // std::cout << "BOX 2 CIRCLE, BITCH!" << std::endl;
+    // return cp;
 }
 
 CollisionPair * Collision::circle2box()
@@ -143,7 +222,12 @@ CollisionPair * Collision::circle2box()
     RigidBody *temp = _A;
     _A = _B;
     _B = temp;
-    return box2circle();
+    CollisionPair *cp = this->box2circle();
+    if (cp != NULL) {
+        cp->_normal *= -1;
+        return cp;
+    }
+    return NULL;
 }
 
 CollisionPair * Collision::dispatcher()
