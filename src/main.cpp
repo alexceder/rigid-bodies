@@ -40,7 +40,7 @@ int main( int argc, char* argv[] )
 void initOpenGL()
 {
     // Dynamic objects
-    RigidBody *rb1 = new RigidBody(glm::vec2(-0.1f, 0.9f), 0.0f, new Circle(0.1f));
+    RigidBody *rb1 = new RigidBody(glm::vec2(-0.1f, 0.9f), 0.0f, new Circle(0.15f));
     RigidBody *rb2 = new RigidBody(glm::vec2(0.1f, 0.6f), 0.0f, new Circle(0.2f));
 
     // Ground

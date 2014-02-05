@@ -45,10 +45,12 @@ public:
     float _torque;
     bool _isStatic;
 
+
     // Material
     float _mass;
     float _momentOfInertia;
     float _restitution;
+    float _frictionalConstant;
 
     Shape *_shape;
 };
