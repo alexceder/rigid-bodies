@@ -52,7 +52,7 @@ float CollisionPair::calculateImpulse()
                         + (glm::dot(perpBP, _normal) * glm::dot(perpBP, _normal)) / _B->_momentOfInertia;
 
     // 6.
-    float impulse = numerator/denominator;
+    float impulse = numerator / denominator;
 
     return impulse;
 }
@@ -76,7 +76,7 @@ void CollisionPair::applyImpulse()
         w_b2 = w_b1 + (r_bp(_|_) * impuls * n) / I_b
     */
 
-    float impulse = calculateImpulse() * 5.0f;
+    float impulse = calculateImpulse();
 
     std::cout << "IMPULSE: " << impulse << std::endl;
     std::cout << _normal[0] << ", " << _normal[1] << std::endl;

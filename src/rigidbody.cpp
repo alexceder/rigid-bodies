@@ -22,7 +22,7 @@ RigidBody::RigidBody(glm::vec2 p, float o, Shape *s)
     _velocity = glm::vec2(0.0f);
     _angularVelocity = 0.0f;
     _force = glm::vec2(0.0f);
-    _torque = 0.0f;
+    _torque = 0.001f;
     _isStatic = false;
 }
 
