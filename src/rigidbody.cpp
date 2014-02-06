@@ -24,7 +24,7 @@ RigidBody::RigidBody(glm::vec2 p, float o, Shape *s)
     _force = glm::vec2(0.0f);
     _torque = 0.0f;
     _isStatic = false;
-    _frictionalConstant = 1.0f;
+    _frictionalConstant = 0.1f;
 }
 
 /**
@@ -82,10 +82,11 @@ RigidBody::RigidBody(glm::vec2 p,
  * @param const glm::vec2 &impulse
  * @param const glm::vec2 &collisionVector
  * @return void
- */
+ 
 void RigidBody::applyImpulse(const glm::vec2 &impulse, const glm::vec2 &collisionVector)
 {
     _velocity += (1/_mass) * impulse;
     // Maybe not glm::dot should be cross product, I think.
     _angularVelocity += (1/_momentOfInertia) * glm::dot(collisionVector, impulse);
 }
+*/
