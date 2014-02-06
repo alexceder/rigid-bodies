@@ -9,7 +9,6 @@ CollisionPair * Collision::circle2circle()
 {
     Circle *shape_A = reinterpret_cast<Circle *>(_A->_shape);
     Circle *shape_B = reinterpret_cast<Circle *>(_B->_shape);
-
     // Calculate translational vector, which is normal
     glm::vec2 normal = _B->_position - _A->_position;
 
@@ -21,6 +20,7 @@ CollisionPair * Collision::circle2circle()
     if (dist_sqr >= radius * radius) {
         return NULL;
     }
+
 
     // In contact
     CollisionPair *cp = new CollisionPair(_A, _B);

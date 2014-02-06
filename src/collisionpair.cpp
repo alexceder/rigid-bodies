@@ -34,8 +34,15 @@ float CollisionPair::calculateImpulse(CollisionPair *cp)
 
     // 1.
    /// KOLLLA RIKTNING X PÅ NORMAAAAL ! SÄTT ALLTID DEN MED HÖGST Ypos SOM A OBJEKKT!!!!
-    glm::vec2 velocityAP = _A->_velocity + _A->_angularVelocity * _normal;
-    glm::vec2 velocityBP = _B->_velocity + _B->_angularVelocity * _normal;
+    glm::vec2 velocityAP;
+    glm::vec2 velocityBP;
+    if((_normal[0] > 0 && _normal[1] > 0) || (_normal[0] < 0 && _normal[1] < 0)) {
+        velocityAP = _A->_velocity + _A->_angularVelocity * _normal;
+        velocityBP = _B->_velocity + _B->_angularVelocity * _normal; 
+    } else {
+        velocityAP = _A->_velocity - _A->_angularVelocity * _normal;
+        velocityBP = _B->_velocity - _B->_angularVelocity * _normal;
+    }   
 
     // 2.
     glm::vec2 velocityAB = velocityAP - velocityBP;
@@ -54,6 +61,9 @@ float CollisionPair::calculateImpulse(CollisionPair *cp)
 
     // 6.
     float impulse = numerator/denominator;
+
+
+    std::cout << "impulse: " << impulse << std::endl;
 
     return impulse;
 }
@@ -88,8 +98,22 @@ void CollisionPair::applyImpulse()
     glm::vec2 perpBP = glm::vec2(-(_collisions[0][1] - _B->_position[1]), _collisions[0][0] - _B->_position[0]);
 
     // 3 & 4.
-    _A->_angularVelocity += ( glm::dot(perpAP, impulse * _normal) ) / _A->_momentOfInertia;
-    _B->_angularVelocity += ( glm::dot(perpBP, impulse * _normal) ) / _B->_momentOfInertia;
+   // std::cout << "Normal: " << _normal[0] << "  " << _normal[1] << std::endl;
+
+    if((_normal[0] > 0 && _normal[1] > 0) || (_normal[0] < 0 && _normal[1] < 0)){
+        _A->_angularVelocity += ( glm::dot(perpAP, impulse * _A->_frictionalConstant*glm::vec2(1.0f,1.0f)) ) / _A->_momentOfInertia;
+        _B->_angularVelocity -= ( glm::dot(perpBP, impulse * _B->_frictionalConstant*glm::vec2(1.0f,1.0f)) ) / _B->_momentOfInertia;
+    } else if(_normal[0] == 0){
+        _A->_angularVelocity = 0;
+        _B->_angularVelocity = 0;
+    }else{
+        _A->_angularVelocity -= ( glm::dot(perpAP, impulse * _A->_frictionalConstant*glm::vec2(1.0f,1.0f)) ) / _A->_momentOfInertia;
+        _B->_angularVelocity += ( glm::dot(perpBP, impulse * _B->_frictionalConstant*glm::vec2(1.0f,1.0f)) ) / _B->_momentOfInertia;
+    }
+
+   // std::cout << "A angl" << _A
+
+
 
     /*
         fricVec = friktionsvektor
@@ -101,30 +125,17 @@ void CollisionPair::applyImpulse()
         */
         float dt = 0.01667;
 
-        glm::vec2 velocityAP = _A->_velocity + _A->_angularVelocity * _normal;
-        glm::vec2 velocityBP = _B->_velocity + _B->_angularVelocity * _normal;
+       float torqueA;
+       float torqueB;
 
-        glm::vec2 normVelA = glm::dot(_A->_velocity, -_normal) * (-_normal);
-        glm::vec2 normVelB = glm::dot(_B->_velocity, _normal) * (_normal);
+       torqueA = _A->_momentOfInertia * _A->_angularVelocity / dt;
+       torqueA = _B->_momentOfInertia * _B->_angularVelocity / dt;
 
-        glm::vec2 deltaVelA = normVelA - normVelB;
-        glm::vec2 deltaVelB = normVelB - normVelA;
+       _A->_torque = torqueA;
+       _B->_torque = torqueB;
 
-        glm::vec2 tanVelA = normVelA - _A->_velocity;
-        glm::vec2 tanVelB = normVelB - _B->_velocity;
 
-        glm::vec2 fricForceA = (-_A->_frictionalConstant) * ( (_A->_mass * deltaVelA) / (dt) ) * ((velocityAP + tanVelB) / glm::length(velocityAP + tanVelB));
-        glm::vec2 fricForceB = (-_B->_frictionalConstant) * ( (_B->_mass * deltaVelB) / (dt) ) * ((velocityBP + tanVelA) / glm::length(velocityBP + tanVelA));
 
-        _A->_torque = glm::dot(_B->_position, fricForceA);
-        _B->_torque = glm::dot(_A->_position, fricForceB);
-
-        _A->_angularVelocity += (_A->_torque * dt) / _A->_momentOfInertia;
-        _B->_angularVelocity += (_B->_torque * dt) / _B->_momentOfInertia;
-
-        std::cout << "fricForceA: " << fricForceA[0] << "   " << fricForceA[1] << std::endl;
-        std::cout << "fricForceB: " << fricForceB[0] << "   " << fricForceB[1] << std::endl;
-        
 }
 
 void CollisionPair::correctPosition()

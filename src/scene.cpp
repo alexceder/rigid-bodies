@@ -60,6 +60,8 @@ void Scene::integrateVelocities()
         //std::cout << "velo: " << (*it)->_velocity[1] << std::endl;
         //std::cout << "pos:  " << (*it)->_orientation << std::endl;
         (*it)->_orientation += (*it)->_angularVelocity * dt;
+        //std::cout << "ORIENTATION: " << (*it)->_orientation << std::endl;
+        //std::cout << "angularvelo: " << (*it)->_angularVelocity << std::endl;
     }
 }
 

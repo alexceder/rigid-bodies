@@ -48,7 +48,7 @@ void initOpenGL()
     // rb3->_isStatic = true;
     // Ground
     RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.2f), 0.0f, new Circle(0.4f));
-    rb3->_isStatic = true;
+    //rb3->_isStatic = true;
 
     // Fence
     // RigidBody *rb4 = new RigidBody(glm::vec2(-0.8f, -0.6f), 0.0f, new Box(0.1f, 0.2f));
