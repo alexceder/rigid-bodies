@@ -17,14 +17,14 @@ RigidBody::RigidBody(glm::vec2 p, float o, Shape *s)
 
     _mass = _shape->calculateMass();
     _momentOfInertia = _shape->calculateMomentOfInertia();
-    _restitution = 0.2f;
+    _restitution = 0.5f;
 
     _velocity = glm::vec2(0.0f);
     _angularVelocity = 0.0f;
     _force = glm::vec2(0.0f);
-    _torque = 0.01f;
+    _torque = 0.0f;
     _isStatic = false;
-    _frictionalConstant = 0.01f;
+    _frictionalConstant = 1.0f;
 }
 
 /**

@@ -33,6 +33,7 @@ float CollisionPair::calculateImpulse(CollisionPair *cp)
     */
 
     // 1.
+   /// KOLLLA RIKTNING X PÅ NORMAAAAL ! SÄTT ALLTID DEN MED HÖGST Ypos SOM A OBJEKKT!!!!
     glm::vec2 velocityAP = _A->_velocity + _A->_angularVelocity * _normal;
     glm::vec2 velocityBP = _B->_velocity + _B->_angularVelocity * _normal;
 
@@ -48,7 +49,7 @@ float CollisionPair::calculateImpulse(CollisionPair *cp)
 
     // 5.
     float denominator = glm::dot(_normal, _normal) * ((1 / _A->_mass) + (1 / _B->_mass))
-                        + (glm::dot(perpAP, _normal) * glm::dot(perpBP, _normal)) / _A->_momentOfInertia
+                        + (glm::dot(perpAP, _normal) * glm::dot(perpAP, _normal)) / _A->_momentOfInertia
                         + (glm::dot(perpBP, _normal) * glm::dot(perpBP, _normal)) / _B->_momentOfInertia;
 
     // 6.
@@ -121,7 +122,8 @@ void CollisionPair::applyImpulse()
         _A->_angularVelocity += (_A->_torque * dt) / _A->_momentOfInertia;
         _B->_angularVelocity += (_B->_torque * dt) / _B->_momentOfInertia;
 
-        std::cout << "angularVel: " << _A->_angularVelocity << std::endl;
+        std::cout << "fricForceA: " << fricForceA[0] << "   " << fricForceA[1] << std::endl;
+        std::cout << "fricForceB: " << fricForceB[0] << "   " << fricForceB[1] << std::endl;
         
 }
 

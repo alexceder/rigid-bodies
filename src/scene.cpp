@@ -27,6 +27,8 @@ void Scene::getImpulse()
     for (std::vector<CollisionPair *>::iterator it = _collisions.begin() ; it != _collisions.end(); it++) {
         //(*it)->CollisionPair::applyImpulse();
         (*it)->applyImpulse();
+        //(*it)->_A->_angularVelocity += ((*it)->_A->_torque * dt / (*it)->_A->_momentOfInertia);
+        //(*it)->_B->_angularVelocity += ((*it)->_B->_torque * dt / (*it)->_B->_momentOfInertia);
         //std::cout << "velocity A: " << (*it)->_A->_velocity[1] << std::endl;
         //std::cout << "collisions: " << (*it)->_collisions[0][0] << "   " << (*it)->_collisions[0][1] << std::endl;
     }
@@ -39,7 +41,7 @@ void Scene::applyG()
         if ( (*it)->_isStatic ) continue;
 
         (*it)->_velocity += glm::vec2(0, GRAVITATIONAL_FORCE) * dt / (*it)->_mass;
-        (*it)->_angularVelocity += ((*it)->_torque * dt / (*it)->_momentOfInertia);
+        
     }
 }
 
