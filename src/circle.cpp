@@ -43,6 +43,7 @@ void Circle::draw()
     glVertex2f(xPos, yPos);
     glVertex2f(lineX + xPos, lineY + yPos);
     glEnd();
+
 }
 
 int Circle::getType()

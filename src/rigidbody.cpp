@@ -24,11 +24,11 @@ RigidBody::RigidBody(glm::vec2 p, float o, Shape *s)
     _force = glm::vec2(0.0f);
     _torque = 0.0f;
     _isStatic = false;
-    _frictionalConstant = 0.05f;
+    _frictionalConstant = 0.01f;
 }
 
 /**
- * Constructor that let you decide everything yourself.
+ * Constructor that lets you decide everything yourself.
  *
  * @param glm::vec2 p
  * @param glm::vec2 v

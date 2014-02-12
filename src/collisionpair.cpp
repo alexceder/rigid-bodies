@@ -57,12 +57,12 @@ void CollisionPair::applyImpulse()
     glm::vec2 perpAP;
     glm::vec2 perpBP;
    
-    if(_normal[0] == 0){
-        
+    if(_normal[0] > LOWER_LIMIT && _normal[0] < UPPER_LIMIT){
+        std::cout << "limit clause" << std::endl;
         velocityAP = _A->_velocity;
         velocityBP = _B->_velocity;
         
-    }else if((_normal[0] > 0 && _normal[1] > 0) || (_normal[0] < 0 && _normal[1] < 0)) {
+    } else if ((_normal[0] > 0 && _normal[1] > 0) || (_normal[0] < 0 && _normal[1] < 0)) {
         std::cout << "right hit" << std::endl;
         perpAP = glm::vec2(-(_collisions[0][1] - _A->_position[1]), _collisions[0][0] - _A->_position[0]);
         perpBP = glm::vec2(-(_collisions[0][1] - _B->_position[1]), _collisions[0][0] - _B->_position[0]);
@@ -78,10 +78,19 @@ void CollisionPair::applyImpulse()
         velocityBP = _B->_velocity - _B->_angularVelocity * perpBP;
 
     }
+
+
     
-    std::cout << "normal X: " << _normal[0] << " normal Y: " << _normal[1] << std::endl; 
+    //std::cout << "normal X: " << _normal[0] << " normal Y: " << _normal[1] << std::endl; 
     std::cout << "PerpAP X: " << perpAP[0] << " PerpAP Y: " << perpAP[1] << std::endl; 
     std::cout << "PerpBP X: " << perpBP[0] << " PerpBP Y: " << perpBP[1] << std::endl; 
+
+    glBegin(GL_LINES);
+    glColor3f(1.0,0.0,0.0);
+    glVertex2f(perpAP[0], perpAP[1]);
+    glVertex2f(_collisions[0][0], _collisions[0][1]);
+    glColor3f(1.0,1.0,1.0);
+    glEnd();
     // 2.
     glm::vec2 velocityAB = velocityAP - velocityBP;    
 
@@ -92,34 +101,32 @@ void CollisionPair::applyImpulse()
   /*  float denominator = glm::dot(_normal, _normal) * ((1 / _A->_mass) + (1 / _B->_mass))
                         + ((perpAP[0]*_normal[1]-perpAP[1]*_normal[0]) * (perpAP[0]*_normal[1]-perpAP[1]*_normal[0])) / _A->_momentOfInertia
                         + ((perpBP[0]*_normal[1]-perpBP[1]*_normal[0]) * (perpBP[0]*_normal[1]-perpBP[1]*_normal[0])) / _B->_momentOfInertia;
-*/
-   float denominator = glm::dot(_normal, _normal) * ((1 / _A->_mass) + (1 / _B->_mass))
+  */
+    float denominator = glm::dot(_normal, _normal) * ((1 / _A->_mass) + (1 / _B->_mass))
                         + (glm::dot(perpAP,_normal) * glm::dot(perpAP, _normal)) / _A->_momentOfInertia
                         + (glm::dot(perpBP,_normal) * glm::dot(perpBP, _normal)) / _B->_momentOfInertia;
 
     // 5.
     float impulse = numerator/denominator;
 
-
     std::cout << "impulse: " << impulse << std::endl;
-
 
     // 1 & 2.
     _A->_velocity = _A->_velocity + (impulse / _A->_mass) * _normal;
     _B->_velocity = _B->_velocity - (impulse / _B->_mass) * _normal;
 
     // 3 & 4.
-    
+    //FRICTION BITCHES!!!
     
     if((_normal[0] > 0 && _normal[1] > 0) || (_normal[0] < 0 && _normal[1] < 0)){
-        _A->_angularVelocity += ( glm::dot(perpAP, impulse * (_A->_frictionalConstant*perpAP))) / _A->_momentOfInertia;
-        _B->_angularVelocity += ( glm::dot(perpBP, impulse * (_B->_frictionalConstant*perpBP))) / _B->_momentOfInertia;
-    } else if(_normal[0] == 0){
+        _A->_angularVelocity += ( glm::dot(perpAP, impulse * (_A->_frictionalConstant*glm::normalize(perpAP)))) / _A->_momentOfInertia;
+        _B->_angularVelocity += ( glm::dot(perpBP, impulse * (_B->_frictionalConstant*glm::normalize(perpBP)))) / _B->_momentOfInertia;
+    } else if(_normal[0] > LOWER_LIMIT && _normal[0] < UPPER_LIMIT){
         _A->_angularVelocity = 0;
         _B->_angularVelocity = 0;
     }else{
-        _A->_angularVelocity -= ( glm::dot(perpAP, impulse * (_A->_frictionalConstant*perpAP))) / _A->_momentOfInertia;
-        _B->_angularVelocity -= ( glm::dot(perpBP, impulse * (_B->_frictionalConstant*perpBP))) / _B->_momentOfInertia;
+        _A->_angularVelocity -= ( glm::dot(perpAP, impulse * (_A->_frictionalConstant*glm::normalize(perpAP)))) / _A->_momentOfInertia;
+        _B->_angularVelocity -= ( glm::dot(perpBP, impulse * (_B->_frictionalConstant*glm::normalize(perpBP)))) / _B->_momentOfInertia;
     }
 
     std::cout << "1: A angl " << _A->_angularVelocity << std::endl;
@@ -134,7 +141,7 @@ void CollisionPair::applyImpulse()
 
     _A->_torque = torqueA;
     _B->_torque = torqueB;
-   // assert(1==2);
+    //assert(1==2);
 }
 
 void CollisionPair::correctPosition()
