@@ -17,7 +17,7 @@ RigidBody::RigidBody(glm::vec2 p, float o, Shape *s)
 
     _mass = _shape->calculateMass();
     _momentOfInertia = _shape->calculateMomentOfInertia();
-    _restitution = 0.5f;
+    _restitution = 0.2f;
 
     _velocity = glm::vec2(0.0f);
     _angularVelocity = 0.0f;
@@ -76,7 +76,7 @@ RigidBody::RigidBody(glm::vec2 p,
 // }
 
 /**
- * Calculate the impulse for the RigidBody
+ * Apply sn impulse to the RigidBody
  * i.e. updating the velocity and angular velocity.
  *
  * @param const glm::vec2 &impulse
@@ -85,7 +85,9 @@ RigidBody::RigidBody(glm::vec2 p,
  */
 void RigidBody::applyImpulse(const glm::vec2 &impulse, const glm::vec2 &collisionVector)
 {
-    _velocity += (1/_mass) * impulse;
-    // Maybe not glm::dot should be cross product, I think.
-    _angularVelocity += (1/_momentOfInertia) * glm::dot(collisionVector, impulse);
+    if (!this->_isStatic) {
+        _velocity += (1/_mass) * impulse;
+        // Maybe not glm::dot should be cross, I think.
+        _angularVelocity += (1/_momentOfInertia) * cross(collisionVector, impulse);
+    }
 }

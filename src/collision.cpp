@@ -7,8 +7,8 @@ Collision::Collision(RigidBody *a, RigidBody *b)
 
 CollisionPair * Collision::circle2circle()
 {
-    Circle *shape_A = reinterpret_cast<Circle *>(_A->_shape);
-    Circle *shape_B = reinterpret_cast<Circle *>(_B->_shape);
+    Circle *shapeA = reinterpret_cast<Circle *>(_A->_shape);
+    Circle *shapeB = reinterpret_cast<Circle *>(_B->_shape);
     // Calculate translational vector, which is normal
     glm::vec2 normal = _B->_position - _A->_position;
 
@@ -21,29 +21,16 @@ CollisionPair * Collision::circle2circle()
         return NULL;
     }
 
+    float distance = normal.length();
 
     // In contact
     CollisionPair *cp = new CollisionPair(_A, _B);
 
-    float distance = normal.length();
-
     cp->_collision_count = 1;
-
-    // I dont know...
-    if (distance == 0.0f) {
-        assert(false);
-
-        cp->_penetration = shapeA->_radius;
-        cp->_normal = glm::vec2(1.0f, 0.0f);
-        cp->_collisions[0] = _A->_position;
-    } else {
-        cp->_penetration = radius - distance;
-        // Faster than using Normalized since we already performed sqrt
-        cp->_normal = normal / distance;
-        cp->_collisions[0] = cp->_normal * shapeA->_radius + _A->_position;
-
-        //std::cout << "collisions aids: " << cp->_collisions[0][0] << " " << cp->_collisions[0][1] << std::endl;
-    }
+    cp->_penetration = radius - distance;
+    // Faster than using Normalized since we already performed sqrt
+    cp->_normal = normal / distance;
+    cp->_collisions[0] = cp->_normal * shapeA->_radius + _A->_position;
 
     return cp;
 }

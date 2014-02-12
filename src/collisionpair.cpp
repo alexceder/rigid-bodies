@@ -71,7 +71,6 @@ float CollisionPair::calculateImpulse()
 void CollisionPair::applyImpulse()
 {
     /*
-
     Applicera impuls
 
     1. A:s nya hastighet = A:s gamla hastighet + (impuls / massa) * normal
@@ -109,35 +108,87 @@ void CollisionPair::applyImpulse()
     } else if(_normal[0] == 0){
         _A->_angularVelocity = 0;
         _B->_angularVelocity = 0;
-    }else{
+    } else {
         _A->_angularVelocity -= ( glm::dot(perpAP, impulse * _A->_frictionalConstant*glm::vec2(1.0f,1.0f)) ) / _A->_momentOfInertia;
         _B->_angularVelocity += ( glm::dot(perpBP, impulse * _B->_frictionalConstant*glm::vec2(1.0f,1.0f)) ) / _B->_momentOfInertia;
     }
 
-   // std::cout << "A angl" << _A
+    float dt = 0.01667;
+
+    float torqueA;
+    float torqueB;
+
+    torqueA = _A->_momentOfInertia * _A->_angularVelocity / dt;
+    torqueA = _B->_momentOfInertia * _B->_angularVelocity / dt;
+
+    _A->_torque = torqueA;
+    _B->_torque = torqueB;
 
 
+    // NEW SHIEET
+    // CAUTION: NOT WORKING.
+  // for (unsigned int i = 0; i < _collision_count; ++i)
+  // {
+  //   // Calculate radii from COM to contact
+  //   glm::vec2 ra = _collisions[i] - _A->_position;
+  //   glm::vec2 rb = _collisions[i] - _B->_position;
 
-    /*
-        fricVec = friktionsvektor
-        my = frictions konstant
-        m = massa
-        deltaV = 
+  //   // Relative velocity
+  //   glm::vec2 rv = _B->_velocity + cross( _B->_angularVelocity, rb ) -
+  //             _A->_velocity - cross( _A->_angularVelocity, ra );
 
-        friVec = -my (m * ) 
-        */
-        float dt = 0.01667;
+  //   // Relative velocity along the normal
+  //   float contactVel = glm::dot( rv, _normal );
 
-       float torqueA;
-       float torqueB;
+  //   // Do not resolve if velocities are separating
+  //   if (contactVel > 0) {
+  //       // std::cout << "They should be separating right now." << std::endl;
+  //       return;
+  //   }
 
-       torqueA = _A->_momentOfInertia * _A->_angularVelocity / dt;
-       torqueA = _B->_momentOfInertia * _B->_angularVelocity / dt;
+  //   // std::cout << "They should NOT be separating right now." << std::endl;
 
-       _A->_torque = torqueA;
-       _B->_torque = torqueB;
+  //   float raCrossN = cross( ra, _normal );
+  //   float rbCrossN = cross( rb, _normal );
+  //   float invMassSum = (1/_A->_mass) + (1/_B->_mass) + std::sqrt( raCrossN ) / _A->_momentOfInertia + glm::sqrt( rbCrossN ) /_B->_momentOfInertia;
 
+  //   // Calculate impulse scalar
+  //   float j = -(1.0f + _A->_restitution) * contactVel;
+  //   j /= invMassSum;
+  //   j /= _collision_count;
 
+  //   // Apply impulse
+  //   glm::vec2 impulse = _normal * j;
+  //   _A->applyImpulse( -impulse, ra );
+  //   _B->applyImpulse(  impulse, rb );
+
+  //   // // Friction impulse
+  //   // rv = B->velocity + Cross( B->angularVelocity, rb ) -
+  //   //      A->velocity - Cross( A->angularVelocity, ra );
+
+  //   // Vec2 t = rv - (normal * Dot( rv, normal ));
+  //   // t.Normalize( );
+
+  //   // // j tangent magnitude
+  //   // real jt = -Dot( rv, t );
+  //   // jt /= invMassSum;
+  //   // jt /= (real)contact_count;
+
+  //   // // Don't apply tiny friction impulses
+  //   // if(Equal( jt, 0.0f ))
+  //   //   return;
+
+  //   // // Coulumb's law
+  //   // Vec2 tangentImpulse;
+  //   // if(std::abs( jt ) < j * sf)
+  //   //   tangentImpulse = t * jt;
+  //   // else
+  //   //   tangentImpulse = t * -j * df;
+
+  //   // // Apply friction impulse
+  //   // A->ApplyImpulse( -tangentImpulse, ra );
+  //   // B->ApplyImpulse(  tangentImpulse, rb );
+  // }
 
 }
 

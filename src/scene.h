@@ -13,7 +13,6 @@ public:
     void checkCollisions();
     void getImpulse(); // Not sure if we need this.
     void applyG();
-    void integrateAcceleration();
     void integrateVelocities();
     void updatePositions();
     void clearStep();
