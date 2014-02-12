@@ -78,8 +78,8 @@ void CollisionPair::applyImpulse()
 
     float impulse = calculateImpulse();
 
-    std::cout << "IMPULSE: " << impulse << std::endl;
-    std::cout << _normal[0] << ", " << _normal[1] << std::endl;
+    // std::cout << "IMPULSE: " << impulse << std::endl;
+    // std::cout << _normal[0] << ", " << _normal[1] << std::endl;
 
     // 1 & 2.
     _A->_velocity = _A->_velocity + (impulse / _A->_mass) * _normal;
