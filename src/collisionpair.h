@@ -6,7 +6,6 @@ class CollisionPair {
 public:
     CollisionPair() { };
     CollisionPair(RigidBody *A, RigidBody *B);
-    float calculateImpulse(CollisionPair *);
     void applyImpulse();
     glm::vec2 calculateCollisionNormal(RigidBody* A, RigidBody* B);
     void correctPosition();
