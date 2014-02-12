@@ -6,7 +6,6 @@ class CollisionPair {
 public:
     CollisionPair() { };
     CollisionPair(RigidBody *A, RigidBody *B);
-    float calculateImpulse();
     void applyImpulse();
     void correctPosition();
 

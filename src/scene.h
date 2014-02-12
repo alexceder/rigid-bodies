@@ -11,7 +11,7 @@ private:
 public:
     Scene() { };
     void checkCollisions();
-    void getImpulse(); // Not sure if we need this.
+    void getImpulse();
     void applyG();
     void integrateVelocities();
     void updatePositions();

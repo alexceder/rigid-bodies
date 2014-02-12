@@ -40,25 +40,22 @@ int main( int argc, char* argv[] )
 void initOpenGL()
 {
     // Dynamic objects
-    RigidBody *rb1 = new RigidBody(glm::vec2(-0.1f, 0.9f), 0.0f, new Circle(0.15f));
-    RigidBody *rb2 = new RigidBody(glm::vec2(0.15f, 0.6f), 0.0f, new Circle(0.2f));
+    RigidBody *rb1 = new RigidBody(glm::vec2(-0.1f, 0.6f), 0.0f, new Circle(0.2f));
+    RigidBody *rb2 = new RigidBody(glm::vec2(0.1f, 1.5f), 0.0f, new Circle(0.1f));
 
     // Ground
-    // RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.3f), 0.0f, new Box(1.6f, 0.3f));
-    // rb3->_isStatic = true;
-    // Ground
-    RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.6f), 0.0f, new Circle(0.4f));
-    //rb3->_isStatic = true;
+    RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.6f), 0.0f, new Box(1.6f, 0.1f));
+    rb3->_isStatic = true;
 
     // Fence
-    // RigidBody *rb4 = new RigidBody(glm::vec2(-0.8f, -0.6f), 0.0f, new Box(0.1f, 0.2f));
-    // rb4->_isStatic = true;
-    // RigidBody *rb5 = new RigidBody(glm::vec2(0.8f, -0.6f), 0.0f, new Box(0.1f, 0.2f));
-    // rb5->_isStatic = true;
+    RigidBody *rb4 = new RigidBody(glm::vec2(-0.75f, -0.4), 0.0f, new Box(0.1f, 0.2f));
+    rb4->_isStatic = true;
+    RigidBody *rb5 = new RigidBody(glm::vec2(0.75f, -0.4), 0.0f, new Box(0.1f, 0.2f));
+    rb5->_isStatic = true;
 
     scene->addBody(rb1);
     scene->addBody(rb2);
-    scene->addBody(rb3);
+    // scene->addBody(rb3);
     // scene->addBody(rb4);
     // scene->addBody(rb5);
 }

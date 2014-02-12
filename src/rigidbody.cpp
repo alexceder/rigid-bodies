@@ -24,7 +24,7 @@ RigidBody::RigidBody(glm::vec2 p, float o, Shape *s)
     _force = glm::vec2(0.0f);
     _torque = 0.0f;
     _isStatic = false;
-    _frictionalConstant = 0.3f;
+    _frictionalConstant = 0.1f;
 }
 
 /**
