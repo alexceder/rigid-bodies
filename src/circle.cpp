@@ -6,7 +6,7 @@ Circle::Circle(float r)
 
 void Circle::draw()
 {
-    float num_segments = 25.0f;
+    float num_segments = 50.0f;
     float theta = 2 * PI / num_segments;
     float _cos = cosf(theta);
     float _sin = sinf(theta);
