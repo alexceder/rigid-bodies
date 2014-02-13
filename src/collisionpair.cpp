@@ -79,14 +79,18 @@ void CollisionPair::applyImpulse()
 
     }
 
-    
+     std::cout << "veloAP X: " << velocityAP[0] << " VeloAP Y: " << velocityAP[1] << std::endl;
+     std::cout << "veloBP X: " << velocityBP[0] << " veloBP Y: " << velocityBP[1] << std::endl;  
     //std::cout << "normal X: " << _normal[0] << " normal Y: " << _normal[1] << std::endl; 
-    std::cout << "PerpAP X: " << perpAP[0] << " PerpAP Y: " << perpAP[1] << std::endl; 
-    std::cout << "PerpBP X: " << perpBP[0] << " PerpBP Y: " << perpBP[1] << std::endl; 
+ //   std::cout << "PerpAP X: " << perpAP[0] << " PerpAP Y: " << perpAP[1] << std::endl; 
+  //  std::cout << "PerpBP X: " << perpBP[0] << " PerpBP Y: " << perpBP[1] << std::endl; 
 
     // 2.
     glm::vec2 velocityAB = velocityAP - velocityBP;    
+    std::cout << "VelocityAB X: " << velocityAB[0] << " VelocityAB Y: " << velocityAP[1] << std::endl;  
 
+
+    //velocityAB = glm::abs(velocityAB);
     // 3.
     float numerator = -(1 + _B->_restitution) * glm::dot(velocityAB, _normal);
 
@@ -108,12 +112,12 @@ void CollisionPair::applyImpulse()
    impulseVecA += impulseVecA*_A->_frictionalConstant*glm::normalize(perpAP);
    impulseVecB += impulseVecB*_B->_frictionalConstant*glm::normalize(perpBP);
 
-    _A->_velocity = _A->_velocity + (impulseVecA / _A->_mass);
-    _B->_velocity = _B->_velocity - (impulseVecB / _B->_mass);
+   if(!_A->_isStatic) _A->_velocity = _A->_velocity + (impulseVecA / _A->_mass);
+   if(!_B->_isStatic) _B->_velocity = _B->_velocity - (impulseVecB / _B->_mass);
 
 
-    _A->_angularVelocity = _A->_angularVelocity - glm::dot(perpAP, impulseVecA) / _A->_momentOfInertia;
-    _B->_angularVelocity = _B->_angularVelocity - glm::dot(perpBP, impulseVecB) / _B->_momentOfInertia;
+   if(!_A->_isStatic) _A->_angularVelocity = _A->_angularVelocity - glm::dot(perpAP, impulseVecA) / _A->_momentOfInertia;
+   if(!_B->_isStatic) _B->_angularVelocity = _B->_angularVelocity - glm::dot(perpBP, impulseVecB) / _B->_momentOfInertia;
 
     // 3 & 4.
     //FRICTION BITCHES!!!
