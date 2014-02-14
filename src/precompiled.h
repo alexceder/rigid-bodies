@@ -3,7 +3,7 @@
 
 #define PI 3.14159265359
 #define DENSITY 1
-#define GRAVITATIONAL_FORCE -0.01
+#define GRAVITATIONAL_FORCE -0.05
 
 #define CIRCLE_SHAPE 0
 #define BOX_SHAPE 1

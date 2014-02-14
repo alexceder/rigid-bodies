@@ -46,6 +46,7 @@ void CollisionPair::applyImpulse()
         // Calculate the collisions tangent vector.
         // glm::vec2 t = glm::normalize( rv - (_normal * glm::dot( rv, _normal )) );
         glm::vec2 t = rv - (_normal * glm::dot( rv, _normal ));
+        // debug_vector(_collisions[i], t, glm::vec3(0.0f, 0.0f, 1.0f));
 
         // Calculate the friction impulse coefficient.
         float jt = -glm::dot( rv, t );
@@ -69,8 +70,8 @@ void CollisionPair::applyImpulse()
 
 void CollisionPair::correctPosition()
 {
-    const float k_slop = 0.05f; // Penetration allowance
-    const float percent = 0.4f; // Penetration percentage to correct
+    const float k_slop = 0.01f; // Penetration allowance
+    const float percent = 1.0f; // Penetration percentage to correct
     glm::vec2 correction = (std::max( _penetration - k_slop, 0.0f ) / (_A->_imass + _B->_imass)) * _normal * percent;
     if (!_A->_isStatic) _A->_position -= correction * _A->_imass;
     if (!_A->_isStatic) _B->_position += correction * _B->_imass;

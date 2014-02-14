@@ -13,7 +13,7 @@ void Circle::draw()
     float temp;
     float x = _radius;
     float y = 0;
-    
+
     float cosAng = cosf(_rigidBody->_orientation);
     float sinAng = sinf(_rigidBody->_orientation);
     float lineX = _radius;
@@ -36,12 +36,17 @@ void Circle::draw()
     glEnd();
 
     glBegin(GL_LINES);
-    tempLine = lineX;
-    lineX = cosAng * lineX - sinAng * lineY;
-    lineY = sinAng * tempLine + cosAng * lineY;
+        if (_rigidBody->_angularVelocity < 0)
+            glColor3f(1.0f, 1.0f, 0.0f);
+        else
+            glColor3f(0.0f, 1.0f, 1.0f);
+        tempLine = lineX;
+        lineX = cosAng * lineX - sinAng * lineY;
+        lineY = sinAng * tempLine + cosAng * lineY;
 
-    glVertex2f(xPos, yPos);
-    glVertex2f(lineX + xPos, lineY + yPos);
+        glVertex2f(xPos, yPos);
+        glVertex2f(lineX + xPos, lineY + yPos);
+        glColor3f(1.0f, 1.0f, 1.0f);
     glEnd();
 }
 

@@ -44,22 +44,22 @@ void initOpenGL()
     // rb1->_isStatic = true;
 
     // Ground
-    RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.8f), 0.0f, new Box(2.5f, 0.2f));
+    RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.8f), 0.0f, new Box(2.4f, 0.2f));
     rb3->_isStatic = true;
 
     // // Fence
-    // RigidBody *rb4 = new RigidBody(glm::vec2(-0.75f, -0.4), 0.0f, new Box(0.1f, 0.2f));
-    // rb4->_isStatic = true;
-    // RigidBody *rb5 = new RigidBody(glm::vec2(0.75f, -0.4), 0.0f, new Box(0.1f, 0.2f));
-    // rb5->_isStatic = true;
+    RigidBody *rb4 = new RigidBody(glm::vec2(-1.2f, -0.1), 0.0f, new Box(0.3f, 0.5f));
+    rb4->_isStatic = true;
+    RigidBody *rb5 = new RigidBody(glm::vec2(1.2f, -0.1), 0.0f, new Box(0.3f, 0.5f));
+    rb5->_isStatic = true;
 
     // scene->addBody(rb1);
     scene->addBody(rb3);
-    // scene->addBody(rb4);
-    // scene->addBody(rb5);
+    scene->addBody(rb4);
+    scene->addBody(rb5);
 
     int sign = 1;
-    for (float f = 0.8f; f < 10.0f; f += 0.2f)
+    for (float f = 0.8f; f < 6.0f; f += 0.2f)
     {
         sign *= -1;
         float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
