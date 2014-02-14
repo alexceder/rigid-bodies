@@ -42,6 +42,12 @@ void initOpenGL()
     // Dynamic objects
     RigidBody *rb1 = new RigidBody(glm::vec2(0.0f, 0.0f), 0.0f, new Circle(0.2f));
     rb1->_isStatic = true;
+    RigidBody *rb6 = new RigidBody(glm::vec2(-0.3f, -0.3f), 0.0f, new Circle(0.2f));
+    rb6->_isStatic = true;
+    RigidBody *rb7 = new RigidBody(glm::vec2(0.3f, 0.3f), 0.0f, new Circle(0.2f));
+    rb7->_isStatic = true;
+    RigidBody *rb8 = new RigidBody(glm::vec2(-0.6f, 0.3f), 0.0f, new Circle(0.2f));
+    rb8->_isStatic = true;
 
     // Ground
     RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.6f), 0.0f, new Box(1.6f, 0.1f));
@@ -53,6 +59,11 @@ void initOpenGL()
     RigidBody *rb5 = new RigidBody(glm::vec2(0.75f, -0.4), 0.0f, new Box(0.1f, 0.2f));
     rb5->_isStatic = true;
 
+    scene->addBody(rb1);
+    scene->addBody(rb6);
+    scene->addBody(rb7);
+    scene->addBody(rb8);
+
     int sign = 1;
     for (float f = 0.8f; f < 100.0f; f += 0.2f)
     {
@@ -60,8 +71,6 @@ void initOpenGL()
         RigidBody *temp = new RigidBody(glm::vec2(sign * 0.2f, f), 0.0f, new Circle(0.1f));
         scene->addBody(temp);
     }
-
-    scene->addBody(rb1);
 }
 
 void calcPhysics()

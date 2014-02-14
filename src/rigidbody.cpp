@@ -16,7 +16,9 @@ RigidBody::RigidBody(glm::vec2 p, float o, Shape *s)
     _shape->_rigidBody = this;
 
     _mass = _shape->calculateMass();
+    _imass = 1/_mass;
     _momentOfInertia = _shape->calculateMomentOfInertia();
+    _imomentOfInertia = _momentOfInertia;
     _restitution = 0.8f;
 
     _velocity = glm::vec2(0.0f);

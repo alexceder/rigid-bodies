@@ -21,15 +21,18 @@ CollisionPair * Collision::circle2circle()
         return NULL;
     }
 
-    float distance = normal.length();
+    float distance = glm::length(normal);
 
     // In contact
     CollisionPair *cp = new CollisionPair(_A, _B);
 
     cp->_collision_count = 1;
+    // cp->_penetration = radius - distance;
     cp->_penetration = radius - distance;
     // Faster than using Normalized since we already performed sqrt
     cp->_normal = normal / distance;
+    // cp->_normal = glm::normalize(normal);
+    // std::cout << cp->_normal.x << ", " << cp->_normal.y << std::endl;
     cp->_collisions[0] = cp->_normal * shapeA->_radius + _A->_position;
 
     return cp;

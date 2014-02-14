@@ -48,7 +48,9 @@ public:
 
     // Material
     float _mass;
+    float _imass;
     float _momentOfInertia;
+    float _imomentOfInertia;
     float _restitution;
     float _frictionalConstant;
 

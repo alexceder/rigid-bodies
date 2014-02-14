@@ -5,49 +5,52 @@ CollisionPair::CollisionPair(RigidBody *A, RigidBody *B)
 , _B(B)
 { };
 
-
 void CollisionPair::applyImpulse()
 {
     float dt = 0.01667;
+    float e = glm::min(_A->_restitution, _B->_restitution);
 
     for (size_t i = 0; i < _collision_count; i++)
     {
+        debug_point(_collisions[i]);
+
+        // Vectors from com to collision point.
         glm::vec2 ra = _collisions[i] - _A->_position;
         glm::vec2 rb = _collisions[i] - _B->_position;
 
+        // Relative velocity, cross product is (x, y) => -(-ay, ax).
         glm::vec2 rv = _B->_velocity + cross(_B->_angularVelocity, rb) - _A->_velocity - cross(_A->_angularVelocity, ra);
 
-        float contactVelocity = glm::dot( rv, _normal );
+        float x = glm::dot( rv, _normal );
 
-        if (contactVelocity > 0)
-            return;
+        // If separating, do nothing.
+        if (x > 0)
+            continue;
 
+        // Calculate the impulse coefficient.
         float raxn = glm::dot(ra, _normal);
         float rbxn = glm::dot(rb, _normal);
-        raxn = 0;
-        rbxn = 0;
-        float denominator = (1/_A->_mass) + (1/_B->_mass) + raxn * raxn / _A->_momentOfInertia + rbxn * rbxn / _B->_momentOfInertia;
+        float denominator = _A->_imass + _B->_imass + raxn * raxn * _A->_imomentOfInertia + rbxn * rbxn * _B->_imomentOfInertia;
+        float j = -(1.0f + e) * x;
+        j /= denominator * _collision_count;
 
-        float j = -(1.0f + glm::min(_A->_restitution, _B->_restitution)) * contactVelocity * 10;
-        j /= denominator;
-        // j /= _collision_count;
-        // glBegin(GL_LINES);
-        //     glVertex2f(_A->_position[0], _A->_position[1]);
-        //     glVertex2f(_A->_position[0] + glm::normalize(_normal[0]), _A->_position[1] + glm::normalize(_normal[1]));
-        // glEnd();
+        debug_vector(_A->_position, _normal, glm::vec3(0.0f, 1.0f, 0.0f));
 
+        // Calculate the impulse vector.
         glm::vec2 impulse = glm::normalize(_normal) * j;
+
+        // Apply the impulse to the rigid bodies.
         _A->applyImpulse(-impulse, ra);
         _B->applyImpulse(impulse, rb);
 
-        // Tangent
+        // Calculate the collisions tangent vector.
         glm::vec2 t = glm::normalize( rv - (_normal * glm::dot( rv, _normal )) );
 
-        // j tangent magnitude
+        // Calculate the friction impulse coefficient.
         float jt = -glm::dot( rv, t );
-        jt /= denominator;
-        // jt /= _collision_count;
+        jt /= denominator * _collision_count;
 
+        // Calculate the relative friction.
         float fc = std::sqrt( _A->_frictionalConstant * _B->_frictionalConstant );
 
         // Coulumb's law
@@ -59,62 +62,15 @@ void CollisionPair::applyImpulse()
 
         // Apply friction impulse
         _A->applyImpulse( -tangentImpulse, ra );
-        _B->applyImpulse(  tangentImpulse, rb );
+        _B->applyImpulse( tangentImpulse, rb );
     }
 }
 
-// void CollisionPair::applyImpulse()
-// {
-//     glm::vec2 velocityAP, velocityBP;
-
-//     float dt = 0.01667;
-
-//     glm::vec2 perpAP = glm::vec2(-(_collisions[0][1] - _A->_position[1]), _collisions[0][0] - _A->_position[0]);
-//     glm::vec2 perpBP = glm::vec2(-(_collisions[0][1] - _B->_position[1]), _collisions[0][0] - _B->_position[0]);;
-
-//     // In the case of a right hit.
-//     if ((_normal[0] > 0 && _normal[1] > 0) || (_normal[0] < 0 && _normal[1] < 0)) {
-//         velocityAP = _A->_velocity + _A->_angularVelocity * perpAP;
-//         velocityBP = _B->_velocity + _B->_angularVelocity * perpBP;
-
-//     // In the case of a left hit.
-//     } else {
-//         velocityAP = _A->_velocity - _A->_angularVelocity * _normal;
-//         velocityBP = _B->_velocity - _B->_angularVelocity * _normal;
-//     }
-
-//     glm::vec2 velocityAB = velocityAP - velocityBP;
-
-//     // Calcing the impulse coefficient.
-//     float numerator = -(1 + _B->_restitution) * glm::dot(velocityAB, _normal);
-
-//     float denominator = glm::dot(_normal, _normal) * ((1 / _A->_mass) + (1 / _B->_mass))
-//                         + glm::dot(perpAP, _normal) * glm::dot(perpAP, _normal)  / _A->_momentOfInertia
-//                         + glm::dot(perpBP, _normal) * glm::dot(perpBP, _normal)  / _B->_momentOfInertia;
-
-//     float impulse = numerator / denominator;
-
-//     // Apply impulse
-//     if ( ! _A->_isStatic ) _A->_velocity = _A->_velocity + (impulse / _A->_mass) * _normal;
-//     if ( ! _A->_isStatic ) _B->_velocity = _B->_velocity - (impulse / _B->_mass) * _normal;
-
-//     if ((_normal[0] > 0 && _normal[1] > 0) || (_normal[0] < 0 && _normal[1] < 0)) {
-//         _A->_angularVelocity += ( glm::dot(perpAP,  impulse * ( _A->_frictionalConstant * perpAP ) ) ) / _A->_momentOfInertia;
-//         _B->_angularVelocity += ( glm::dot(perpBP,  impulse * ( _B->_frictionalConstant * perpBP ) ) ) / _B->_momentOfInertia;
-//     } else {
-//         _A->_angularVelocity += ( glm::dot(perpAP, -impulse * ( _A->_frictionalConstant * perpAP ) ) ) / _A->_momentOfInertia;
-//         _B->_angularVelocity += ( glm::dot(perpBP, -impulse * ( _B->_frictionalConstant * perpBP ) ) ) / _B->_momentOfInertia;
-//     }
-
-//     _A->_torque = _A->_momentOfInertia * _A->_angularVelocity / dt;
-//     _B->_torque = _B->_momentOfInertia * _B->_angularVelocity / dt;
-// }
-
 void CollisionPair::correctPosition()
 {
-    // const float k_slop = 0.05f; // Penetration allowance
-    // const float percent = 0.4f; // Penetration percentage to correct
-    // glm::vec2 correction = (std::max( _penetration - k_slop, 0.0f ) / ((1/_A->_mass) + (1/_B->_mass))) * _normal * percent;
-    // if ( !_A->_isStatic) _A->_position -= correction / _A->_mass;
-    // if ( !_B->_isStatic) _B->_position += correction / _B->_mass;
+    const float k_slop = 0.05f; // Penetration allowance
+    const float percent = 0.4f; // Penetration percentage to correct
+    glm::vec2 correction = (std::max( _penetration - k_slop, 0.0f ) / (_A->_imass + _B->_imass)) * _normal * percent;
+    if (!_A->_isStatic) _A->_position -= correction * _A->_imass;
+    if (!_A->_isStatic) _B->_position += correction * _B->_imass;
 }
