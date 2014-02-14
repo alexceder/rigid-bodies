@@ -51,23 +51,21 @@ CollisionPair * Collision::box2circle()
 
     float distance_squared = glm::dot(normal, normal);
 
-    glBegin(GL_LINES);
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex2f(_B->_position[0], _B->_position[1]);
-        glVertex2f(closest[0], closest[1]);
-        glColor3f(1.0f, 1.0f, 1.0f);
-    glEnd();
+    // glBegin(GL_LINES);
+    //     glColor3f(0.0f, 1.0f, 0.0f);
+    //     glVertex2f(_B->_position[0], _B->_position[1]);
+    //     glVertex2f(closest[0], closest[1]);
+    //     glColor3f(1.0f, 1.0f, 1.0f);
+    // glEnd();
 
     if (distance_squared > shapeB->_radius * shapeB->_radius) {
         return NULL;
     }
 
-    std::cout << "BOX to CIRCLE" << std::endl;
-
     CollisionPair *cp = new CollisionPair(_A, _B);
     cp->_collision_count = 1;
-    cp->_penetration = shapeB->_radius - normal.length();
-    cp->_normal = normal;
+    cp->_penetration = shapeB->_radius - glm::length(normal);
+    cp->_normal = glm::normalize(normal);
     cp->_collisions[0] = closest;
     return cp;
 }

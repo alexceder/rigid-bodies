@@ -40,35 +40,30 @@ int main( int argc, char* argv[] )
 void initOpenGL()
 {
     // Dynamic objects
-    RigidBody *rb1 = new RigidBody(glm::vec2(0.0f, 0.0f), 0.0f, new Circle(0.2f));
-    rb1->_isStatic = true;
-    RigidBody *rb6 = new RigidBody(glm::vec2(-0.3f, -0.3f), 0.0f, new Circle(0.2f));
-    rb6->_isStatic = true;
-    RigidBody *rb7 = new RigidBody(glm::vec2(0.3f, 0.3f), 0.0f, new Circle(0.2f));
-    rb7->_isStatic = true;
-    RigidBody *rb8 = new RigidBody(glm::vec2(-0.6f, 0.3f), 0.0f, new Circle(0.2f));
-    rb8->_isStatic = true;
+    // RigidBody *rb1 = new RigidBody(glm::vec2(0.0f, 0.0f), 0.0f, new Circle(0.2f));
+    // rb1->_isStatic = true;
 
     // Ground
-    RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.6f), 0.0f, new Box(1.6f, 0.1f));
+    RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.8f), 0.0f, new Box(2.5f, 0.2f));
     rb3->_isStatic = true;
 
-    // Fence
-    RigidBody *rb4 = new RigidBody(glm::vec2(-0.75f, -0.4), 0.0f, new Box(0.1f, 0.2f));
-    rb4->_isStatic = true;
-    RigidBody *rb5 = new RigidBody(glm::vec2(0.75f, -0.4), 0.0f, new Box(0.1f, 0.2f));
-    rb5->_isStatic = true;
+    // // Fence
+    // RigidBody *rb4 = new RigidBody(glm::vec2(-0.75f, -0.4), 0.0f, new Box(0.1f, 0.2f));
+    // rb4->_isStatic = true;
+    // RigidBody *rb5 = new RigidBody(glm::vec2(0.75f, -0.4), 0.0f, new Box(0.1f, 0.2f));
+    // rb5->_isStatic = true;
 
-    scene->addBody(rb1);
-    scene->addBody(rb6);
-    scene->addBody(rb7);
-    scene->addBody(rb8);
+    // scene->addBody(rb1);
+    scene->addBody(rb3);
+    // scene->addBody(rb4);
+    // scene->addBody(rb5);
 
     int sign = 1;
-    for (float f = 0.8f; f < 100.0f; f += 0.2f)
+    for (float f = 0.8f; f < 10.0f; f += 0.2f)
     {
         sign *= -1;
-        RigidBody *temp = new RigidBody(glm::vec2(sign * 0.2f, f), 0.0f, new Circle(0.1f));
+        float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        RigidBody *temp = new RigidBody(glm::vec2(sign * 0.2f + r * 0.01f, f), 0.0f, new Circle(0.1f));
         scene->addBody(temp);
     }
 }

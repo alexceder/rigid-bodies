@@ -34,7 +34,7 @@ void CollisionPair::applyImpulse()
         float j = -(1.0f + e) * x;
         j /= denominator * _collision_count;
 
-        debug_vector(_A->_position, _normal, glm::vec3(0.0f, 1.0f, 0.0f));
+        // debug_vector(_A->_position, _normal, glm::vec3(0.0f, 1.0f, 0.0f));
 
         // Calculate the impulse vector.
         glm::vec2 impulse = glm::normalize(_normal) * j;
@@ -44,7 +44,8 @@ void CollisionPair::applyImpulse()
         _B->applyImpulse(impulse, rb);
 
         // Calculate the collisions tangent vector.
-        glm::vec2 t = glm::normalize( rv - (_normal * glm::dot( rv, _normal )) );
+        // glm::vec2 t = glm::normalize( rv - (_normal * glm::dot( rv, _normal )) );
+        glm::vec2 t = rv - (_normal * glm::dot( rv, _normal ));
 
         // Calculate the friction impulse coefficient.
         float jt = -glm::dot( rv, t );
