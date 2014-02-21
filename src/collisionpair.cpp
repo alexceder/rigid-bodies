@@ -39,6 +39,7 @@ void CollisionPair::applyImpulse()
         // Calculate the impulse vector.
         glm::vec2 impulse = glm::normalize(_normal) * j;
 
+
         // Apply the impulse to the rigid bodies.
         _A->applyImpulse(-impulse, ra);
         _B->applyImpulse(impulse, rb);
@@ -72,7 +73,16 @@ void CollisionPair::correctPosition()
 {
     const float k_slop = 0.01f; // Penetration allowance
     const float percent = 0.8f; // Penetration percentage to correct
+    float tempMass;
+
+    if (!_A->_isStatic && !_B->_isStatic)
+        tempMass = _A->_imass + _B->_imass;
+    else if (_A->_isStatic) 
+        tempMass = _B->_imass + _B->_imass;
+    else if (_B->_isStatic)
+        tempMass = _A->_imass + _A->_imass;
+
     glm::vec2 correction = (std::max( _penetration - k_slop, 0.0f ) / (_A->_imass + _B->_imass)) * _normal * percent;
     if (!_A->_isStatic) _A->_position -= correction * _A->_imass;
-    if (!_A->_isStatic) _B->_position += correction * _B->_imass;
+    if (!_B->_isStatic) _B->_position += correction * _B->_imass;
 }

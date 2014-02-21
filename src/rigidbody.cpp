@@ -80,7 +80,7 @@ RigidBody::RigidBody(glm::vec2 p,
 /**
  * Setup a rigid body to be static.
  */
-void setStatic(bool s)
+void RigidBody::setStatic(bool s)
 {
     this->_imass = 0;
     this->_isStatic = s;
