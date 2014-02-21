@@ -78,6 +78,15 @@ RigidBody::RigidBody(glm::vec2 p,
 // }
 
 /**
+ * Setup a rigid body to be static.
+ */
+void setStatic(bool s)
+{
+    this->_imass = 0;
+    this->_isStatic = s;
+}
+
+/**
  * Apply sn impulse to the RigidBody
  * i.e. updating the velocity and angular velocity.
  *

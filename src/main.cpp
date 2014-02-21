@@ -47,16 +47,16 @@ void initOpenGL()
     // Dynamic objects
     // RigidBody *rb1 = new RigidBody(glm::vec2(0.0f, 0.0f), 0.0f, new Circle(0.2f));
     // rb1->_isStatic = true;
-    
+
     // Ground
     RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.8f), 0.0f, new Box(2.4f, 0.2f));
-    rb3->_isStatic = true;
+    rb3->setStatic(true);
 
     // // Fence
     RigidBody *rb4 = new RigidBody(glm::vec2(-1.1f, -0.2), 0.0f, new Box(0.2f, 0.5f));
-    rb4->_isStatic = true;
+    rb4->setStatic(true);
     RigidBody *rb5 = new RigidBody(glm::vec2(1.1f, -0.2), 0.0f, new Box(0.2f, 0.5f));
-    rb5->_isStatic = true;
+    rb5->setStatic(true);
 
     // scene->addBody(rb1);
     scene->addBody(rb3);
@@ -90,7 +90,7 @@ void mouseCallback(int button, int action)
     {
         case GLFW_MOUSE_BUTTON_LEFT:
             mouseLeftButton = (action == GLFW_PRESS ? true : false);
-            if(mouseLeftButton == true) 
+            if(mouseLeftButton == true)
             {
                 sgct::Engine::getMousePos(0, &mousePos[0], &mousePos[1]);
                 double tempX = (mousePos[0]/960 - 0.5) * 3.56;
