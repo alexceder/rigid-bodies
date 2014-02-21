@@ -6,9 +6,7 @@ Epic simulation and kind of a love story really..
 
 ### Compiling and running
 
-``
-make && make run
-``
+``make && make run``
 
 ### Dependencies
 
