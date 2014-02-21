@@ -46,7 +46,7 @@ void CollisionPair::applyImpulse()
         // Calculate the collisions tangent vector.
         // glm::vec2 t = glm::normalize( rv - (_normal * glm::dot( rv, _normal )) );
         glm::vec2 t = rv - (_normal * glm::dot( rv, _normal ));
-        // debug_vector(_collisions[i], t, glm::vec3(0.0f, 0.0f, 1.0f));
+        debug_vector(_collisions[i], t, glm::vec3(0.0f, 0.0f, 1.0f));
 
         // Calculate the friction impulse coefficient.
         float jt = -glm::dot( rv, t );
