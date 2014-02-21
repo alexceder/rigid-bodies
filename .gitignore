@@ -1,2 +1,13 @@
+
+# OS specific
 .DS_Store
+
+# Binaries
 bin
+
+# LaTeX files
+docs/*
+!docs/figures
+#docs/pluto/*
+!docs/*.tex
+!docs/*.bbl

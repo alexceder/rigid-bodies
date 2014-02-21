@@ -30,6 +30,9 @@ public:
     // Apply impulse to a RigidBody.
     void applyImpulse(const glm::vec2 &impulse, const glm::vec2 &collisionNormal);
 
+    // Make a rigid body static.
+    void setStatic(bool s);
+
 // This is commented so I don't have to create getters and setters at this point in time.
 // private:
     // Positional quantities

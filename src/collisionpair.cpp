@@ -18,9 +18,6 @@ void CollisionPair::applyImpulse()
         glm::vec2 ra = _collisions[i] - _A->_position;
         glm::vec2 rb = _collisions[i] - _B->_position;
 
-        // Teleporting
-        
-
         // Relative velocity, cross product is (x, y) => -(-ay, ax).
         glm::vec2 rv = _B->_velocity + cross(_B->_angularVelocity, rb) - _A->_velocity - cross(_A->_angularVelocity, ra);
 
@@ -50,7 +47,7 @@ void CollisionPair::applyImpulse()
         // Calculate the collisions tangent vector.
         // glm::vec2 t = glm::normalize( rv - (_normal * glm::dot( rv, _normal )) );
         glm::vec2 t = rv - (_normal * glm::dot( rv, _normal ));
-        // debug_vector(_collisions[i], t, glm::vec3(0.0f, 0.0f, 1.0f));
+        debug_vector(_collisions[i], t, glm::vec3(0.0f, 0.0f, 1.0f));
 
         // Calculate the friction impulse coefficient.
         float jt = -glm::dot( rv, t );
