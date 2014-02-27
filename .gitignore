@@ -10,4 +10,4 @@ docs/*
 !docs/figures
 #docs/pluto/*
 !docs/*.tex
-!docs/*.bbl
+!docs/*.bib
