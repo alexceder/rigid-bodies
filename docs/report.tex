@@ -47,7 +47,7 @@
 
 %-- Abstract
 \begin{abstract}
-This report will cover the way of thinking when creating a physics simulation for collision impulses for basic geometries.
+This report will cover the thought process of creating a physics simulation of collision impulses for basic geometries.
 \end{abstract}
 
 
@@ -63,7 +63,7 @@ This report will cover the way of thinking when creating a physics simulation fo
 \chapter{Introduction}
 \setcounter{page}{1}
 
-We have chosen a general system involving collision impulse between rigid bodies in two and three dimensions. The implementation of the problem of resolving collisions includes calculating collisions between these bodies. Because of this and the fact that the focus of this project is the physical system and the numerical methods of simulation the simplest geometries was chosen to narrow the focus. What is the simplest geometries for collision detection, you say? And circles and spheres are the answer to your question. Since they can only collide at \emph{one} point with other convex geometries they are the best choice to keep the focus on the simulation. Figure ~\ref{fig:snapshot} show a snapshot of this kind of simulation with circles.
+We have chosen a general system involving collision impulse between rigid bodies in two and three dimensions. The implementation of the problem of resolving collisions includes calculating collisions between these bodies. Because of this and the fact that the focus of this project is the physical system and the numerical methods of simulation, the simplest geometries were chosen to narrow the focus. What are the simplest geometries for collision detection, you ask? Circles and spheres are the answer to your question. Since they can only collide at \emph{one} point with other convex geometries, they are the best choice to keep the focus on the simulation. Figure ~\ref{fig:snapshot} show a snapshot of this kind of simulation with circles.
 
 \begin{figure}[!h]
     \centering
@@ -79,7 +79,7 @@ We have chosen a general system involving collision impulse between rigid bodies
 % Collision detection
 \section{Collision detection}
 
-To be able to resolve a collision an actual collision must be registered. As mentioned in previous chapter the focus is not put on collision detection. There are some information that we need to know about a collision to be able to resolve the collision impulse in a later step. We need to know the \emph{penetration} of the collision, the \emph{normal} of the collision and the \emph{collision point}. Figure ~\ref{fig:snapshot} displays a collision between two circles including this information.
+To be able to resolve a collision, an actual collision must be registered. As mentioned in the previous chapter, the focus is not put on collision detection. There is some information that we need to know about a collision to be able to resolve the collision impulse in a later step. We need to know the \emph{penetration} of the collision, the \emph{normal} of the collision and the \emph{collision point}. Figure ~\ref{fig:snapshot} displays a collision between two circles including this information.
 
 \begin{figure}[!h]
     \centering
@@ -88,17 +88,17 @@ To be able to resolve a collision an actual collision must be registered. As men
     \label{fig:collision}
 \end{figure}
 
-% Resolvning an impulse
+% Resolving an impulse
 \section{Resolving an impulse}
 
-To explain how to resolve an impulse\cite{gdm} let us first think about to object colliding with each other both with their own velocity. Imagine that we know the normal of the collision. During a collision an instant force, \emph{impulse}, will act on both object knocking them apart from each other. This change in the objects relative velocity as explained in \ref{eq:1}, tells us that the relative velocity will be inverted proportional with the \emph{coefficient of restitution}, \emph{e},  (which will be covered later on).
+To explain how to resolve an impulse\cite{gdm}, let us first think about two objects colliding with each other, both with their own seperate velocities. Assume that we know the normal of the collision. During a collision, an instant force (i.e. an \emph{impulse}), will act on both objects, knocking them apart from each other. This change in the object's relative velocity, as explained in \ref{eq:1}, tells us that the relative velocity will be inverted proportional with the \emph{coefficient of restitution} (\emph{e}, which will be covered later on).
 
 \begin{equation}
 \mathbf v'_{AB}\cdot \mathbf n=-e\mathbf v_{AB}\cdot \mathbf n
 \label{eq:1}
 \end{equation}
 
-The above equation is used, among some other physical properties, to solve a coefficient \ref{eq:2} for the impulse that later will be applied to the objects as a way of changing their velocity and angular velocity.
+The above equation is used, among other physical properties, to solve for a coefficient \ref{eq:2} of the impulse that will later be applied to the objects as a way of changing their velocity and angular velocity.
 
 \begin{equation}
 j = \dfrac{ -(1+e) \mathbf v_{AB} \cdot \mathbf n }{
@@ -108,7 +108,7 @@ j = \dfrac{ -(1+e) \mathbf v_{AB} \cdot \mathbf n }{
 \label{eq:2}
 \end{equation}
 
-Now that the impulse coefficient is known, one might think how is a scalar going to help us resolve a collision impulse. The question is legitimate and it will be explained in the following equations \ref{eq:3} and \ref{eq:4}. The scalar is multiplied with the normalized \emph{collision vector} in both equations.
+Now that the impulse coefficient is known, one might think, "how is a scalar going to help us resolve a collision impulse?". The question is legitimate and it will be explained in the following equations (\ref{eq:3} and \ref{eq:4}). The scalar is multiplied with the normalized \emph{collision vector} in both equations.
 
 \begin{equation}
 \mathbf v'_{A}=\mathbf v_{A}+\dfrac{j}{M_{A}}\mathbf n
@@ -119,27 +119,26 @@ Now that the impulse coefficient is known, one might think how is a scalar going
 \label{eq:4}
 \end{equation}
 
-This is basically it; when a collision occurs, figure out some properties of the collision then apply the impulse to the objects velocity and angular velocity.
+This is the basic simulation; when a collision occurs, solve for the properties of the collision and then apply the impulse to the objects velocity and angular velocity.
 
 % Resolvning an impulse
 \section{Numerical integration}
 
-Since computers live in a world of zeroes and ones we need some way to integrate numerically, the most basic and widely used one is the \emph{Euler method}\cite{gdm}. For this kind of simulation Euler is enough for most applications, however another method will also be covered.
-The \emph{Euler method} \ref{eq:5} works by adding the current state with its derivative multiplied by the step in time.
+Since computers live in a world of zeroes and ones, we need a to integrate numerically, the most basic and widely used approach is the \emph{Euler method}\cite{gdm}. For this type of simulation, the \emph{Euler method} is suitable for the majority of applications; however, another method will also be covered. The \emph{Euler method} \ref{eq:5} works by adding the current state with its derivative multiplied by the step in time.
 
 \begin{equation}
 y_{n+1}=y_{n}+hf(t_n, y_n)
 \label{eq:5}
 \end{equation}
 
-For example \ref{eq:6} if we are going to integrate a velocty for the next time step, grab the current velocity and multiply it by the acceleration multiplied with the time step.
+For example \ref{eq:6} if we are going to integrate a velocity for the next time step, take the current velocity and add it to the acceleration multiplied with the time step.
 
 \begin{equation}
 v(t+1)=v(t)+ha(t)
 \label{eq:6}
 \end{equation}
 
-Since this method is as basic as it gets, keep in mind that an error is going to be added each iteration.
+Since this method is one of the more simplistic numerical methods, it is important to keep in mind that an error will compound with each iteration.
 
 % OpenGL Implementation
 \section{OpenGL implementation}
@@ -169,7 +168,7 @@ Navigate to the folder with your current operating system and click the executab
 %-- Discussion
 \chapter{Discussion}
 
-We though that it was a bit to easy. Maybe we should have challenged ourselves a bit more.
+We thought that it was a bit too easy. Maybe we should have challenged ourselves a bit more.
 
 
 %-- Bibliography
@@ -179,4 +178,3 @@ We though that it was a bit to easy. Maybe we should have challenged ourselves a
 
 %-- End of Document
 \end{document}
-
