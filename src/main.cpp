@@ -68,7 +68,7 @@ void initOpenGL()
     {
         sign *= -1;
         float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-        RigidBody *temp = new RigidBody(glm::vec2(sign * 0.2f + r * 0.01f, f), 0.0f, new Circle(0.1f));
+        RigidBody *temp = new RigidBody(glm::vec2(sign * 0.2f + r * 0.01f, f), 0.0f, new Circle(0.1f*r + 0.1f));
         scene->addBody(temp);
     }
 }
@@ -95,7 +95,8 @@ void mouseCallback(int button, int action)
                 sgct::Engine::getMousePos(0, &mousePos[0], &mousePos[1]);
                 double tempX = (mousePos[0]/960 - 0.5) * 3.56;
                 double tempY = (-mousePos[1]/540 + 0.5) * 2;
-                RigidBody *temp1 = new RigidBody(glm::vec2(tempX, tempY), 0.0f, new Circle(0.1f));
+                float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+                RigidBody *temp1 = new RigidBody(glm::vec2(tempX, tempY), 0.0f, new Circle(0.1f*r + 0.1f));
                 scene->addBody(temp1);
             }
         break;
