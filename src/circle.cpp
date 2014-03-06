@@ -37,9 +37,9 @@ void Circle::draw()
 
     glBegin(GL_LINES);
         if (_rigidBody->_angularVelocity < 0)
-            glColor3f(1.0f, 1.0f, 0.0f);
+            glColor3f(0.94f, 0.43f, 0.67f);
         else
-            glColor3f(0.0f, 1.0f, 1.0f);
+            glColor3f(0.11f, 0.73f, 0.71f);
         tempLine = lineX;
         lineX = cosAng * lineX - sinAng * lineY;
         lineY = sinAng * tempLine + cosAng * lineY;

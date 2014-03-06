@@ -65,7 +65,7 @@ This report will cover the thought process of creating a physics simulation of c
 
 We have chosen a general system involving collision impulse between rigid bodies in two and three dimensions. The implementation of the problem of resolving collisions includes calculating collisions between these bodies. Because of this and the fact that the focus of this project is the physical system and the numerical methods of simulation, the simplest geometries were chosen to narrow the focus. What are the simplest geometries for collision detection, you ask? Circles and spheres are the answer to your question. Since they can only collide at \emph{one} point with other convex geometries, they are the best choice to keep the focus on the simulation. Figure ~\ref{fig:snapshot} show a snapshot of this kind of simulation with circles.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/snapshot.png}
     \caption{A snapshop of a simulation of circles interacting with each other. The line from the origin indicates the angle.}
@@ -81,9 +81,9 @@ We have chosen a general system involving collision impulse between rigid bodies
 
 To be able to resolve a collision, an actual collision must be registered. As mentioned in the previous chapter, the focus is not put on collision detection. There is some information that we need to know about a collision to be able to resolve the collision impulse in a later step. We need to know the \emph{penetration} of the collision, the \emph{normal} of the collision and the \emph{collision point}. Figure ~\ref{fig:snapshot} displays a collision between two circles including this information.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/collision.png}
+    \includegraphics[width=0.6\textwidth]{figures/collision.png}
     \caption{A collision including the normal of the collision and other quantities related to the collision.}
     \label{fig:collision}
 \end{figure}

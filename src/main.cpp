@@ -73,6 +73,14 @@ void initOpenGL()
         RigidBody *temp = new RigidBody(glm::vec2(sign * 0.2f + r * 0.01f, f), 0.0f, new Circle(0.1f*r + 0.1f));
         scene->addBody(temp);
     }
+
+    // Smooth, oh, so smooth.
+    glEnable( GL_LINE_SMOOTH );
+    glEnable( GL_POLYGON_SMOOTH );
+    glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
+    glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
+    glEnable( GL_BLEND );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 }
 
 void calcPhysics()
