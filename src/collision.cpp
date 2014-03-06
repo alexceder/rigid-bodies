@@ -17,22 +17,15 @@ CollisionPair * Collision::circle2circle()
     float radius = shapeA->_radius + shapeB->_radius;
 
     // Not in contact
-    if (dist_sqr >= radius * radius) {
-        return NULL;
-    }
+    if (dist_sqr >= radius * radius) return NULL;
 
     float distance = glm::length(normal);
 
-    // In contact
     CollisionPair *cp = new CollisionPair(_A, _B);
-
     cp->_collision_count = 1;
-    // cp->_penetration = radius - distance;
     cp->_penetration = radius - distance;
     // Faster than using Normalized since we already performed sqrt
     cp->_normal = normal / distance;
-    // cp->_normal = glm::normalize(normal);
-    // std::cout << cp->_normal.x << ", " << cp->_normal.y << std::endl;
     cp->_collisions[0] = cp->_normal * shapeA->_radius + _A->_position;
 
     return cp;
@@ -51,16 +44,8 @@ CollisionPair * Collision::box2circle()
 
     float distance_squared = glm::dot(normal, normal);
 
-    // glBegin(GL_LINES);
-    //     glColor3f(0.0f, 1.0f, 0.0f);
-    //     glVertex2f(_B->_position[0], _B->_position[1]);
-    //     glVertex2f(closest[0], closest[1]);
-    //     glColor3f(1.0f, 1.0f, 1.0f);
-    // glEnd();
-
-    if (distance_squared > shapeB->_radius * shapeB->_radius) {
-        return NULL;
-    }
+    if (distance_squared > shapeB->_radius * shapeB->_radius) return NULL;
+    if (glm::length(normal) < 0.000001f) return NULL;
 
     CollisionPair *cp = new CollisionPair(_A, _B);
     cp->_collision_count = 1;

@@ -19,6 +19,8 @@ int main( int argc, char* argv[] )
     // Allocate
     gEngine = new sgct::Engine( argc, argv );
     scene = new Scene();
+    scene->t = 0;
+    scene->dt = 1.0f/60.0f;
 
     // Bind your functions
     gEngine->setInitOGLFunction( initOpenGL );
