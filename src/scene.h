@@ -11,7 +11,7 @@ public:
     Scene() { };
     void checkCollisions();
     void getImpulse();
-    void applyG();
+    void applyG(); // This is used for Euler
     void integrateVelocities();
     void updatePositions();
     void clearStep();

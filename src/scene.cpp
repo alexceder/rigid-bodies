@@ -22,16 +22,6 @@ void Scene::getImpulse()
     }
 }
 
-void Scene::applyG()
-{
-    // for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
-    //     if ( (*it)->_isStatic ) continue;
-
-    //     (*it)->_velocity += glm::vec2(0, GRAVITATIONAL_FORCE) * dt;
-    // }
-    // RECONSIDER
-}
-
 Derivative evaluate(const RigidBody *initial, float t, float dt, const Derivative &d)
 {
     State state;
@@ -70,9 +60,13 @@ void Scene::integrateVelocities()
     for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
         if ( (*it)->_isStatic ) continue;
 
-        // (*it)->_position += (*it)->_velocity * dt;
-        // (*it)->_orientation += (*it)->_angularVelocity * dt;
-
+        // This is used for Euler
+        /*
+        (*it)->_position += (*it)->_velocity * dt;
+        (*it)->_orientation += (*it)->_angularVelocity * dt;
+        */
+        
+        // Runge kutta
         Derivative a = evaluate(*it, t);
         Derivative b = evaluate(*it, t, dt*0.5f, a);
         Derivative c = evaluate(*it, t, dt*0.5f, b);
@@ -97,10 +91,23 @@ void Scene::updatePositions()
     }
 }
 
+//This is used for Euler
+void Scene::applyG()
+{
+    /*
+    for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
+        if ( (*it)->_isStatic ) continue;
+
+         (*it)->_velocity += glm::vec2(0, GRAVITATIONAL_FORCE) * dt;
+    }
+    */
+}
+
+
 void Scene::step()
 {
     checkCollisions();
-    applyG();
+    //applyG(); // This is used for Euler
     getImpulse();
     integrateVelocities();
     updatePositions();
