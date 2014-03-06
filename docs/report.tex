@@ -47,7 +47,7 @@
 
 %-- Abstract
 \begin{abstract}
-This report will cover the thought process of creating a physics simulation of collision impulses for basic geometries.
+This report will cover the thought process of creating a physics simulation of collision impulses for basic geometries. It will also cover most a couple of numerical methods for integration which is essential for these kinds of simulations.
 \end{abstract}
 
 
@@ -83,7 +83,7 @@ To be able to resolve a collision, an actual collision must be registered. As me
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/snapshot.png}
+    \includegraphics[width=0.8\textwidth]{figures/collision.png}
     \caption{A collision including the normal of the collision and other quantities related to the collision.}
     \label{fig:collision}
 \end{figure}
@@ -124,6 +124,8 @@ This is the basic simulation; when a collision occurs, solve for the properties 
 % Resolvning an impulse
 \section{Numerical integration}
 
+\subsection{Euler method}
+
 Since computers live in a world of zeroes and ones, we need a to integrate numerically, the most basic and widely used approach is the \emph{Euler method}\cite{gdm}. For this type of simulation, the \emph{Euler method} is suitable for the majority of applications; however, another method will also be covered. The \emph{Euler method} \ref{eq:5} works by adding the current state with its derivative multiplied by the step in time.
 
 \begin{equation}
@@ -140,12 +142,18 @@ v(t+1)=v(t)+ha(t)
 
 Since this method is one of the more simplistic numerical methods, it is important to keep in mind that an error will compound with each iteration.
 
+\subsection{Runge Kutta method}
+
+This section is not yet finished.
+
 % OpenGL Implementation
 \section{OpenGL implementation}
 
 The chosen method to run the simulation is \emph{OpenGL} which is a computer graphics API for most graphics cards. Our implementation was written in \emph{C++}. Listing \ref{lst:1} shows pseudo code for the implementation.
 
 \begin{lstlisting}[caption={Pseudo code for the simulation loop.}, label=lst:1]
+// This is not really finished.
+// It is just a placeholder for now.
 void mainLoop()
 {
     while (time < INFINITY)
@@ -168,7 +176,7 @@ Navigate to the folder with your current operating system and click the executab
 %-- Discussion
 \chapter{Discussion}
 
-We thought that it was a bit too easy. Maybe we should have challenged ourselves a bit more.
+This section is not finished.
 
 
 %-- Bibliography
