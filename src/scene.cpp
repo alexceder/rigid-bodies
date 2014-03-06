@@ -28,7 +28,7 @@ void Scene::applyG()
     for (std::vector<RigidBody *>::iterator it = _bodies.begin() ; it != _bodies.end(); ++it) {
         if ( (*it)->_isStatic ) continue;
 
-        (*it)->_velocity += glm::vec2(0, GRAVITATIONAL_FORCE) * dt / (*it)->_mass;
+        (*it)->_velocity += glm::vec2(0, GRAVITATIONAL_FORCE) * dt;
     }
 }
 

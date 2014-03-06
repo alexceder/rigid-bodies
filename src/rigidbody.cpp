@@ -66,7 +66,10 @@ RigidBody::RigidBody(glm::vec2 p,
 , _momentOfInertia(I)
 , _restitution(e)
 , _shape(s)
-{ }
+{
+    _imass = 1/_mass;
+    _imomentOfInertia = _momentOfInertia;
+}
 
 // No idea how this should work.
 /**
