@@ -84,7 +84,7 @@ To be able to resolve a collision, an actual collision must be registered. As me
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.6\textwidth]{figures/collision.png}
-    \caption{A collision including the normal of the collision and other quantities related to the collision.}
+    \caption{A collision including the normal of the collision and other quantities related to the collision. The collision normal is chosen from A to B by convention.}
     \label{fig:collision}
 \end{figure}
 
@@ -140,7 +140,7 @@ v(t+1)=v(t)+ha(t)
 \label{eq:6}
 \end{equation}
 
-Since this method is one of the more simplistic numerical methods, it is important to keep in mind that an error will compound with each iteration.
+Since this method is one of the more simplistic numerical methods, it is important to keep in mind that an error will compound with each iteration. Many times the Euler method is not good enough, the compound error increase as long as the simulation is running, as explained by \cite{gog}.
 
 \subsection{Runge Kutta method}
 
@@ -152,16 +152,13 @@ This section is not yet finished.
 The chosen method to run the simulation is \emph{OpenGL} which is a computer graphics API for most graphics cards. Our implementation was written in \emph{C++}. Listing \ref{lst:1} shows pseudo code for the implementation.
 
 \begin{lstlisting}[caption={Pseudo code for the simulation loop.}, label=lst:1]
-// This is not really finished.
-// It is just a placeholder for now.
-void mainLoop()
-{
-    while (time < INFINITY)
-    {
-        calculatePhysics();
-        drawScene();
-    }
-}
+while simulation running:
+    find collisions;
+    apply gravitational force;
+    resolve collision impulse;
+    integrate resolved velocities;
+    update position;
+    draw objects at new position;
 \end{lstlisting}
 
 \subsection{Running the simulation}
