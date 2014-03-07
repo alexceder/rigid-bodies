@@ -68,7 +68,7 @@ void CollisionPair::correctPosition()
     // There is something wrong with this function as shown in the simulation.
 
     // Penetration allowance
-    const float k_slop = 0.01f;
+    const float k_slop = 0.001f;
     // Penetration percentage to correct
     const float percent = 0.8f;
     float tempMass;
