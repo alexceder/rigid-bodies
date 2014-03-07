@@ -3,6 +3,7 @@
 
 \usepackage{url}
 \usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage{lipsum}
 \usepackage{listings}
 \usepackage{color}
@@ -144,7 +145,43 @@ Since this method is one of the more simplistic numerical methods, it is importa
 
 \subsection{Runge Kutta method}
 
-This section is not yet finished.
+As our second method we chose Runge Kutta fourth order, often referred to as classic Runge Kutta metod. This metod calculate the approximation in four increments as shown in \ref{eq:7}.
+
+\begin{equation}
+\begin{split}
+\begin{aligned}
+& k_{1} = f(t_{n}, x_{n}) \\
+& k_{2} = f(t_{n}+h/2, x_{n}+h/2*k_{1}) \\
+& k_{3} = f(t_{n}+h/2, x_{n}+h/2*k_{2}) \\
+& k_{4} = f(t_{n}+h, x_{n}+h*k_{2})
+\end{aligned}
+\end{split}
+\label{eq:7}
+\end{equation}
+
+The step size, h, is arbitrarily chosen, to big or small will accumulate a larger error to the approximation. Like the Euler method, each step uses the previous computation to calculated a new value. To determine the next value from the present value the results from \ref{eq:7} is weighted. The two middle values are twice as important as the K1 and K4 as shown in \ref{eq:8}.
+
+\begin{equation}
+\begin{split}
+\begin{aligned}
+& dtdx = h/6(k_{1}+2*k_{2}+2*k_{3}+k_{4}) \\
+& dtdv = h/6(k_{1}+2*k_{2}+2*k_{3}+k_{4})
+\end{aligned}
+\end{split}
+\label{eq:8}
+\end{equation}
+
+The final value is the sum of the weighted values and present value \ref{eq:9}. In our system we use Runge Kutta for both position and orientation.
+
+\begin{equation}
+\begin{split}
+\begin{aligned}
+& x(t+1)=x(t)+dtdx\\
+& v(t+1)=v(t)+dtdv
+\end{aligned}
+\end{split}
+\label{eq:9}
+\end{equation}
 
 % OpenGL Implementation
 \section{OpenGL implementation}
