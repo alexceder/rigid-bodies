@@ -3,6 +3,11 @@
 
 class CollisionPair;
 
+/**
+ * Collision between objects.
+ *  This class handles the collisions between two rigid bodies.
+ *  If this class is used a CollisionPair is probably returned.
+ */
 class Collision {
 private:
     RigidBody *_A;
@@ -14,7 +19,7 @@ public:
     CollisionPair * box2circle();
     CollisionPair * circle2box();
 
-    // laters homie
+    // TODO
     // CollisionPair * circle2polygon();
     // CollisionPair * polygon2circle();
     // CollisionPair * polygon2polygon();

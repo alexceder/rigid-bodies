@@ -1,6 +1,11 @@
 #ifndef RIGIDBODY_H
 #define RIGIDBODY_H
 
+/**
+ * RigidBody
+ *  All objects in the simulation is a RigidBody they contain
+ *  a shape and physical quantities.
+ */
 class RigidBody {
 public:
     // Create an empty RigidBody

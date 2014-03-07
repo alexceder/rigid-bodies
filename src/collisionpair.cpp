@@ -7,11 +7,12 @@ CollisionPair::CollisionPair(RigidBody *A, RigidBody *B)
 
 void CollisionPair::applyImpulse()
 {
-    float dt = 0.01667;
+    // Calculate the compound restitution constant.
     float e = glm::min(_A->_restitution, _B->_restitution);
 
     for (size_t i = 0; i < _collision_count; i++)
     {
+        // Show the collision point.
         // debug_point(_collisions[i]);
 
         // Vectors from com to collision point.
@@ -24,8 +25,7 @@ void CollisionPair::applyImpulse()
         float x = glm::dot( rv, _normal );
 
         // If separating, do nothing.
-        if (x > 0)
-            continue;
+        if (x > 0) continue;
 
         // Calculate the impulse coefficient.
         float raxn = glm::dot(ra, _normal);
@@ -34,20 +34,16 @@ void CollisionPair::applyImpulse()
         float j = -(1.0f + e) * x;
         j /= denominator * _collision_count;
 
-        // debug_vector(_A->_position, _normal, glm::vec3(0.0f, 1.0f, 0.0f));
-
         // Calculate the impulse vector.
         glm::vec2 impulse = glm::normalize(_normal) * j;
-
 
         // Apply the impulse to the rigid bodies.
         _A->applyImpulse(-impulse, ra);
         _B->applyImpulse(impulse, rb);
 
         // Calculate the collisions tangent vector.
-        // glm::vec2 t = glm::normalize( rv - (_normal * glm::dot( rv, _normal )) );
         glm::vec2 t = rv - (_normal * glm::dot( rv, _normal ));
-        // debug_vector(_collisions[i], t, glm::vec3(0.0f, 0.0f, 1.0f));
+        // debug_vector(_collisions[i], t);
 
         // Calculate the friction impulse coefficient.
         float jt = -glm::dot( rv, t );
@@ -58,10 +54,8 @@ void CollisionPair::applyImpulse()
 
         // Coulumb's law
         glm::vec2 tangentImpulse;
-        if (std::abs( jt ) < j * fc)
-            tangentImpulse = t * jt;
-        else
-            tangentImpulse = t * -j * fc;
+        if (std::abs( jt ) < j * fc) tangentImpulse = t * jt;
+        else tangentImpulse = t * -j * fc;
 
         // Apply friction impulse
         _A->applyImpulse( -tangentImpulse, ra );
@@ -71,13 +65,18 @@ void CollisionPair::applyImpulse()
 
 void CollisionPair::correctPosition()
 {
-    const float k_slop = 0.01f; // Penetration allowance
-    const float percent = 0.8f; // Penetration percentage to correct
+    // There is something wrong with this function as shown in the simulation.
+
+    // Penetration allowance
+    const float k_slop = 0.01f;
+    // Penetration percentage to correct
+    const float percent = 0.8f;
     float tempMass;
 
+    // Kinda ugly fix, but it works.
     if (!_A->_isStatic && !_B->_isStatic)
         tempMass = _A->_imass + _B->_imass;
-    else if (_A->_isStatic) 
+    else if (_A->_isStatic)
         tempMass = _B->_imass + _B->_imass;
     else if (_B->_isStatic)
         tempMass = _A->_imass + _A->_imass;

@@ -1,6 +1,9 @@
 #ifndef PRECOMPILED_H
 #define PRECOMPILED_H
 
+/**
+ * Precompiling some headers for ease of use.
+ */
 #define PI 3.14159265359
 #define DENSITY 1
 #define GRAVITATIONAL_FORCE -1

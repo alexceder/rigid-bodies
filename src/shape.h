@@ -3,6 +3,11 @@
 
 class RigidBody;
 
+/**
+ * Shape abstraction class.
+ *  This is an abstract class for the shapes it contains
+ *  all that is required in a shape.
+ */
 class Shape {
 public:
     virtual void draw() = 0;

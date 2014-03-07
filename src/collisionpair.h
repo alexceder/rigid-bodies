@@ -1,8 +1,11 @@
 #ifndef COLLISIONPAIR_H
 #define COLLISIONPAIR_H
 
+/**
+ * CollisionPair
+ *  This class resolves the collisions between two rigid bodies.
+ */
 class CollisionPair {
-
 public:
     CollisionPair() { };
     CollisionPair(RigidBody *A, RigidBody *B);
