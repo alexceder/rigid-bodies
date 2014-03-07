@@ -4,6 +4,7 @@ Box::Box(float b, float h)
 : _base(b)
 , _height(h)
 {
+    // AABB
     _max = glm::vec2(-_base/2, _height/2);
     _min = glm::vec2(_base/2, -_height/2);
 }

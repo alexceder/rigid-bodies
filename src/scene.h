@@ -1,6 +1,11 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+/**
+ * Scene class to handle the simulation.
+ *  This class is the heart of the simulation, it contains all objects/collisions
+ *  and deal with them accordingly.
+ */
 class Scene {
 private:
     std::vector<RigidBody *> _bodies;
@@ -11,7 +16,8 @@ public:
     Scene() { };
     void checkCollisions();
     void getImpulse();
-    void applyG(); // This is used for Euler
+    // EULER
+    // void applyG();
     void integrateVelocities();
     void updatePositions();
     void clearStep();
@@ -22,6 +28,12 @@ public:
     float t, dt;
 };
 
+
+/**
+ * Runge-Kutta declarations.
+ *  These are helper structs and function to make
+ *  life easier when dealing with RK4.
+ */
 struct Derivative
 {
     glm::vec2 dx;

@@ -1,8 +1,12 @@
 #ifndef BOX_H
 #define BOX_H
 
+/**
+ * Box is a Shape.
+ *  A box for now only implemented to work as a static object
+ *  i.e. a floor or a wall.
+ */
 class Box : public Shape {
-
 public:
     Box() { };
     Box(float, float);

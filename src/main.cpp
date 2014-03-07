@@ -1,6 +1,5 @@
 #include "precompiled.h"
 
-
 sgct::Engine *gEngine;
 Scene *scene;
 
@@ -12,7 +11,7 @@ void mouseCallback(int button, int action);
 
 bool stop = false;
 bool mouseLeftButton = false;
-double  mousePos[] = {0.0f, 0.0f};
+double  mousePos[] = { 0.0f, 0.0f };
 
 int main( int argc, char* argv[] )
 {
@@ -40,16 +39,13 @@ int main( int argc, char* argv[] )
     gEngine->render();
 
     delete gEngine;
+    delete scene;
 
     exit( EXIT_SUCCESS );
 }
 
 void initOpenGL()
 {
-    // Dynamic objects
-    // RigidBody *rb1 = new RigidBody(glm::vec2(0.0f, 0.0f), 0.0f, new Circle(0.2f));
-    // rb1->_isStatic = true;
-
     // Ground
     RigidBody *rb3 = new RigidBody(glm::vec2(0.0f, -0.8f), 0.0f, new Box(2.4f, 0.2f));
     rb3->setStatic(true);
@@ -85,11 +81,14 @@ void initOpenGL()
 
 void calcPhysics()
 {
+    // Reason to not step the scene here is that we may
+    // not debug vectors and points while calculating.
     // scene->step();
 }
 
 void drawScene()
 {
+    // Step the simulation and draw.
     scene->step();
     scene->draw();
 }
