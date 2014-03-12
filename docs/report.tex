@@ -88,7 +88,7 @@ For this project we have chosen to simulate a general system involving collision
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/snapshot.png}
-    \caption{A snapshop of a simulation of circles interacting with each other. The line from the origin indicates the rotation.}
+    \caption{A snapshop of a simulation of circles interacting with each other. The line from the origin indicates the rotation and orientation.}
     \label{fig:snapshot}
 \end{figure}
 
@@ -106,7 +106,7 @@ To explain how to resolve an impulse\cite{gdm}, let us first think about two obj
 \label{eq:physics:1}
 \end{equation}
 
-During a collision, an instant force i.e. an impulse will act on both objects, knocking them apart from each other. This change in the object’s relative velocity $\mathbf v'_{AB}$, as explained in \ref{eq:physics:2}, tells us that the relative velocity will be inverted proportional with the \emph{coefficient of restitution} \emph{e}. The restitution value will determine how much energy is lost during a collision. When \emph{e} is 1 no energy is lost i.e. a perfect rubber ball and when it is 0 it is a non elastic collision i.e. a clay lump hitting the floor.
+During a collision, an instant force i.e. an impulse will act on both objects, knocking them apart from each other. This change in the object’s relative velocity $\mathbf v'_{AB}$, as explained in \ref{eq:physics:2}, tells us that the relative velocity will be inverted proportional with the \emph{coefficient of restitution} \emph{e}. The restitution value will determine how much energy is lost during a collision. When \emph{e} is 1 no energy is lost i.e. a perfect rubber ball and when it is 0 it is a non elastic collision i.e. a lump of clay hitting the floor.
 
 \begin{equation}
 \mathbf v'_{AB}\cdot \mathbf n=-e\mathbf v_{AB}\cdot \mathbf n
