@@ -281,8 +281,8 @@ The final value is the sum of the weighted values and present value \ref{eq:rk4:
 \begin{equation}
 \begin{split}
 \begin{aligned}
-& x(t+1)=x(t)+dtdx\\
-& v(t+1)=v(t)+dtdv
+& x_{n+1}=x_n+dtdx\\
+& v_{n+1}=v_n+dtdv
 \end{aligned}
 \end{split}
 \label{eq:rk4:3}
@@ -307,15 +307,13 @@ while simulation running:
     draw objects at new position;
 \end{lstlisting}
 
+To make the user able to interact with the simulation during runtime the user is able to spawn new circles with a random radius. This is done by left-clicking the mouse, which will create a new circle at the mouse position.
+
+Some restrictions does exist when implementing the geometries. Rectangles are, for example, not allowed to be affected by the physics, i.e they are only allowed to act as static objects. Which only allows us to use them as floors and walls, not as actual falling bodies.
 
 \subsection{Running the simulation}
 
 Navigate to the folder named \emph{release} and then the OS-specific folder of your choosing click the executable file named \emph{run-simulation.*} to run the simulation. The software is not tested on any Linux distribution. These instructions are also located in the \emph{README.md} file.
-
-\subsubsection{Requirements}
-\begin{itemize}
-    \item Graphics card from this century
-\end{itemize}
 
 
 %-- Discussion
