@@ -3,7 +3,8 @@
 .DS_Store
 
 # Binaries
-# bin
+bin
+!release/*/bin
 
 # LaTeX files
 docs/*
