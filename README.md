@@ -1,8 +1,12 @@
 # mos-two-dice
 
-Epic simulation and kind of a love story really..
+Simulation of Rigid Body collisions in 2D space, implemented in C++ and OpenGL. Many bugs/leaks ahead, tread carefully.
 
-## Deployment
+## Running the simulation
+
+If you do not care for compiling the software by yourself. Go ahead and navigate to the ``release`` directory and the directory corresponding to your current operating system. Click on the executable named ``run-simulation`` to run the application.
+
+## Building
 
 ### Compiling and running
 
