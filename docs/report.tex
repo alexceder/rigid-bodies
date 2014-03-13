@@ -116,7 +116,7 @@ To explain how to resolve an impulse\cite{gdm}, let us first think about two obj
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.6\textwidth]{figures/collision.png}
+    \includegraphics[width=0.5\textwidth]{figures/collision.png}
     \caption{A collision including the normal of the collision and other quantities related to the collision. The collision normal is chosen from A to B by convention.}
     \label{fig:collision}
 \end{figure}
@@ -183,7 +183,7 @@ Now that the impulse coefficient is known \eqref{eq:physics:3} and \eqref{eq:phy
 
 To be able to resolve a collision impulse, an actual collision must first be registered. As already mentioned, there is some information that we need to know about a collision to be able to resolve the collision impulse: the \emph{normal} of the collision, the \emph{collision point} and the \emph{penetration}, as previously illustrated in ~\ref{fig:collision}.
 
-The collision detection will be different for each geometry. Circles are the simplest ones, rectangles can be handled in a few ways but the most common is the Axis-Aligned Bounding Box (AABB) method \cite{aabb}.
+The collision detection will be different for each geometry. Circles are the simplest ones, rectangles can be handled in a few ways but the most common is the Axis-Aligned Bounding Box (AABB) method.
 
 \subsection{Circle to Circle}
 
@@ -233,10 +233,10 @@ This effect can be handled in a few different ways. One common way is to model t
 % Numerical integration
 \section{Numerical integration}
 
-Since computers live in a world of zeroes and ones, we need a way to integrate numerically. For our simulation, first-order differential equations will be sufficient to approximate a solution. The most general first-order differential equation \eqref{eq:sick:1}, where $\dot{y}$ denotes the first-order derivative and \emph{f}, for example, denotes the velocity. Then the numerical integration \emph{y} would give the position.
+Since computers live in a world of zeroes and ones, we need a way to integrate numerically. For our simulation, first-order differential equations will be sufficient to approximate a solution. The most general first-order differential equation \eqref{eq:sick:1}, where $\dot{x}$ denotes the first-order derivative and $f$, for example, denotes the velocity. Then the numerical integration $x$ would give the position.
 
 \begin{equation}
-\dot{y}(t)=f(t,y(t))
+\dot{x}(t)=f(t,x(t))
 \label{eq:sick:1}
 \end{equation}
 
@@ -272,7 +272,7 @@ Since this method is one of the more simplistic numerical methods, it is importa
 
 \subsection{Runge-Kutta method}
 
-For our second method, we chose Runge-Kutta fourth order, often referred to as the classic Runge-Kutta method. This method calculates the approximation in four increments as shown in \eqref{eq:rk4:1}.
+For our second method, we chose Runge-Kutta fourth order, often referred to as the classic Runge-Kutta method \cite{rk4}. This method calculates the approximation in four increments as shown in \eqref{eq:rk4:1}.
 
 \begin{equation}
 \begin{split}
