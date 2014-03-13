@@ -5,6 +5,7 @@
 # Binaries
 bin
 !release/*/bin
+!release/*/bin/*.dll
 
 # LaTeX files
 docs/*
