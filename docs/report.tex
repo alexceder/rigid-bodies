@@ -10,6 +10,7 @@
 \documentclass[a4paper,12pt]{report}
 
 % Packages
+\usepackage[utf8]{inputenc}
 \usepackage{url}
 \usepackage{amsmath}
 \usepackage{mathtools}
@@ -83,7 +84,7 @@ This report will cover the process of creating a physics simulation of collision
 \chapter{Introduction}
 \setcounter{page}{1}
 
-For this project we have chosen to simulate a general system involving collision impulse between rigid bodies in two and three dimensions. The implementation of the problem of resolving collisions includes calculating collisions between these bodies. Because of this and the fact that the focus of this project is the physical system and the numerical methods of simulation, the simplest geometries were chosen to narrow the focus. What are the simplest geometries for collision detection, you ask? Circles and spheres are the answer to your question. Since they can only collide at \emph{one} point with other convex geometries, they are the best choice to keep the focus on the simulation. Figure ~\ref{fig:snapshot} show a snapshot of this kind of simulation with circles.
+For this project we have chosen to simulate a general system involving collision impulse between rigid bodies in two and three dimensions. The implementation of the problem of resolving collisions includes calculating collisions between these bodies. Because of this and the fact that the focus of this project is the physical system and the numerical methods of simulation, the simplest geometries were chosen to narrow the focus. What are the simplest geometries for collision detection, you ask? Circles and spheres are the answer to your question. Since they can only collide at \emph{one} point with other convex geometries, they are the best choice to keep the focus on the simulation. Figure ~\ref{fig:snapshot} shows a snapshot of this kind of simulation with circles.
 
 \begin{figure}[!ht]
     \centering
@@ -96,24 +97,45 @@ For this project we have chosen to simulate a general system involving collision
 %-- Physics
 \chapter{Physics}
 
+% Gravitational influence
+\section{Gravitational influence}
+
+In order for our system to start moving, \emph{Newton's second law} is implemented  \ref{eq:newton:1}. This enables the system to be affected by gravity $\mathbf F$.
+
+\begin{equation}
+\mathbf F=ma\Leftrightarrow a=\dfrac{\mathbf F}{m}
+\label{eq:newton:1}
+\end{equation}
+
+Now that the objects have a linear velocity, the simulation can start checking for collisions between objects.
+
 % Resolving an impulse
 \section{Resolving an impulse}
 
-To explain how to resolve an impulse\cite{gdm}, let us first think about two objects, A and B, colliding with each other, both with their own separate velocities at the collision point. Assume that we know the normal, \emph{n}, of the collision. The relative velocity $\mathbf v_{AB}$ can be calculated as shown in \ref{eq:physics:1}, where $\mathbf v_{ACP}$ and $\mathbf v_{BCP}$ is the two objects velocities at the collisions point.
+To explain how to resolve an impulse\cite{gdm}, let us first think about two objects, A and B, colliding with each other, both with their own separate velocities at the collision point. We need to know the \emph{normal} of the collision and the \emph{collision point}. Since this is a computer simulation there will be a \emph{penetration} between the colliding object, this is also helpful to register in a collision. Figure ~\ref{fig:collision} displays a collision between two circles including this information.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/collision.png}
+    \caption{A collision including the normal of the collision and other quantities related to the collision. The collision normal is chosen from A to B by convention.}
+    \label{fig:collision}
+\end{figure}
+
+Assume that we know the normal, \emph{n}, of the collision. The relative velocity $\mathbf v_{AB}$ can be calculated as shown in \eqref{eq:physics:1}, where $\mathbf v_{ACP}$ and $\mathbf v_{BCP}$ are the two objects' velocities at the collision point.
 
 \begin{equation}
 \mathbf v_{AB}\cdot \mathbf n=\mathbf (\mathbf v_{ACP} - \mathbf v_{BCP})\cdot \mathbf n
 \label{eq:physics:1}
 \end{equation}
 
-During a collision, an instant force i.e. an impulse will act on both objects, knocking them apart from each other. This change in the object’s relative velocity $\mathbf v'_{AB}$, as explained in \ref{eq:physics:2}, tells us that the relative velocity will be inverted proportional with the \emph{coefficient of restitution} \emph{e}. The restitution value will determine how much energy is lost during a collision. When \emph{e} is 1 no energy is lost i.e. a perfect rubber ball and when it is 0 it is a non elastic collision i.e. a lump of clay hitting the floor.
+During a collision, an instant force i.e. an impulse will act on both objects, knocking them apart from each other. This change in a object’s relative velocity $\mathbf v'_{AB}$, as explained in \eqref{eq:physics:2}, tells us that the relative velocity will be inverted proportionally to the \emph{coefficient of restitution} $e$. The restitution value will determine how much energy is lost during a collision. When \emph{e} is 1, no energy is lost i.e. a perfect rubber ball and when it is 0, it is a non-elastic collision i.e. a lump of clay hitting the floor.
 
 \begin{equation}
 \mathbf v'_{AB}\cdot \mathbf n=-e\mathbf v_{AB}\cdot \mathbf n
 \label{eq:physics:2}
 \end{equation}
 
-To calculate the unknown impulse $j$ we first only take into account the object's velocities. Equations \ref{eq:physics:3} and \ref{eq:physics:4} show the change in velocity during a collision, by convension body A will add a positive velocity in the normal direction and body B will add a negative velocity.
+To calculate the unknown impulse $j$, we first only take into account the objects' velocities. Equations \eqref{eq:physics:3} and \eqref{eq:physics:4} show the change in velocity during a collision, by convention body A will add a positive velocity in the normal direction and body B will add a negative velocity.
 
 \begin{equation}
 \mathbf v'_{A}=\mathbf v_{A}+\dfrac{j}{M_{A}}\mathbf n
@@ -125,7 +147,7 @@ To calculate the unknown impulse $j$ we first only take into account the object'
 \label{eq:physics:4}
 \end{equation}
 
-From this we can, after some rearranging, derive a final equation for the impulse coefficient in ~\ref{eq:physics:4}.
+After some rearranging, we can derive a final equation for the impulse coefficient in ~\eqref{eq:physics:4}.
 
 \begin{equation}
 j = \dfrac{ -(1+e) \mathbf v_{AB} \cdot \mathbf n }{
@@ -133,24 +155,24 @@ j = \dfrac{ -(1+e) \mathbf v_{AB} \cdot \mathbf n }{
 \label{eq:physics:5}
 \end{equation}
 
-As you might have guessed by now, this equation only help resolving the \emph{linear} velocities of the rigid bodies. The following steps explains how to also account for the \emph{angular} velocities during a collision. The angular velocity is obtained as shown in \ref{eq:physics:6}, where the impulse part is positive for the object A and negative for B, just like in the case of the velocities in ~\ref{eq:physics:3} and ~\ref{eq:physics:4}. $r_{AP\perp}$ and $r_{BP\perp}$ is the perpendicular vector to the vector from the center of mass to the collision point of the two objects. $I$ is the moment of inertia of the object, determined by its geometry ~\cite{moi}.
+As you might have guessed by now, this equation only helps in resolving the \emph{linear} velocities of the rigid bodies. The following steps explain how to also account for the \emph{angular} velocities during a collision. The angular velocity is obtained as shown in \eqref{eq:physics:6}, where the impulse is positive for the object A and negative for B, as in the case of the velocities in ~\eqref{eq:physics:3} and ~\eqref{eq:physics:4}. Vector $r_{AP\perp}$ and $r_{BP\perp}$ are perpendicular to the collision normal. $I$ is the moment of inertia of the object, determined by its geometry ~\cite{moi}.
 
 \begin{equation}
 \omega'_{A}=\omega_{A}+\dfrac{\mathbf r_{AP\perp}\cdot j\mathbf n}{I_{A}}
 \label{eq:physics:6}
 \end{equation}
 
-To get the total impulse, the angular velocity is also taken into account and in the same approach as previously done the result can be derived as in \ref{eq:physics:7}. $M$ is the mass of the objects.
+To calculate the total impulse, the angular velocity is also taken into account and in the same approach as previously done with the linear velocity, the result can be derived as in \eqref{eq:physics:7}. $M$ is the mass of the objects.
 
 \begin{equation}
 j = \dfrac{ -(1+e) \mathbf v_{AB} \cdot \mathbf n }{
-    \mathbf n \cdot \mathbf n ( \dfrac{1}{M_{A}} + \dfrac{1}{M_{A}} )
+    \mathbf n \cdot \mathbf n ( \dfrac{1}{M_{A}} + \dfrac{1}{M_{B}} )
     + \dfrac{ (\mathbf r_{AP\perp} \cdot \mathbf n)^2}{I_{A} }
     + \dfrac{ (\mathbf r_{BP\perp} \cdot \mathbf n)^2}{I_{B} } }
 \label{eq:physics:7}
 \end{equation}
 
-Now that the impulse coefficient is known \ref{eq:physics:3} and \ref{eq:physics:4} can be used in the simulation. The scalar is multiplied with the normalized collision vector in both equations. This is the basic simulation; when a collision occurs, solve for the properties of the collision and then apply the impulse to the objects velocity and angular velocity.
+Now that the impulse coefficient is known \eqref{eq:physics:3} and \eqref{eq:physics:4} can be implemented in the simulation. The scalar is multiplied with the normalized collision vector in both equations. This is the basic simulation; when a collision occurs, solve for the properties of the collision and then apply the impulse to the objects' velocities and angular velocities.
 
 
 %-- Implementation
@@ -159,20 +181,13 @@ Now that the impulse coefficient is known \ref{eq:physics:3} and \ref{eq:physics
 % Collision detection
 \section{Collision detection}
 
-To be able to resolve a collision impulse, an actual collision must first be registered. There is some information that we need to know about a collision to be able to resolve the collision impulse. We need to know the \emph{normal} of the collision and the \emph{collision point}. Since this is a computer simulation there will be a \emph{penetration} between the colliding object, this is also helpful to register in a collision. Figure ~\ref{fig:collision} displays a collision between two circles including this information.
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.6\textwidth]{figures/collision.png}
-    \caption{A collision including the normal of the collision and other quantities related to the collision. The collision normal is chosen from A to B by convention.}
-    \label{fig:collision}
-\end{figure}
+To be able to resolve a collision impulse, an actual collision must first be registered. As already mentioned, there is some information that we need to know about a collision to be able to resolve the collision impulse: the \emph{normal} of the collision, the \emph{collision point} and the \emph{penetration}, as previously illustrated in ~\ref{fig:collision}.
 
 The collision detection will be different for each geometry. Circles are the simplest ones, rectangles can be handled in a few ways but the most common is the Axis-Aligned Bounding Box (AABB) method \cite{aabb}.
 
 \subsection{Circle to Circle}
 
-This is the simplest of all collisions to calculate. Since by convention we need to find a collision normal from object A to object B let us call the circles \emph{circle A} and \emph{circle B}. To calculate the normal the origin position of B is subtracted by the origin position A ~\ref{eq:collision:1}. It is a good idea to normalize the normal vector to ensure a proper collision impulse.
+This is the simplest of all collisions to calculate. Since by convention we need to find a collision normal from object A to object B let us call the circles \emph{circle A} and \emph{circle B}. To calculate the normal, the origin position of B is subtracted by the origin position A ~\eqref{eq:collision:1}. It is good practice to normalize the normal vector to ensure a proper collision impulse.
 
 \begin{equation}
 \mathbf n=\mathbf p_{B}-\mathbf p_{A}
@@ -183,19 +198,19 @@ The collision position is the point on the circle's edge in the direction of the
 
 \subsection{Circle to Rectangle}
 
-To find a collision between a circle and a rectangle the closest point to collision \emph{on the rectangle} need to be calculated. This is done by clamping the circle's position value's to the rectangle edge ~\ref{eq:collision:2}.
+To find a collision between a circle and a rectangle the closest point to collision \emph{on the rectangle} needs to be calculated. This is done by clamping the circle's position to the rectangle edge i.e. the bounding box ~\eqref{eq:collision:2}.
 
 \begin{equation}
 p_{\text{closest}}=\text{clamp}( p_{\text{circle}}, p_{\text{rectangle}})
 \label{eq:collision:2}
 \end{equation}
 
-The normal of the collision will then be the vector from this \emph{closest} position and the origin of the circle if by convention be have chosen the circle as body A and the circle as B. The closest collision point is illustrated in ~\ref{fig:closest}.
+The normal of the collision will then be the vector from this \emph{closest} position and the origin of the circle if by convention we have chosen the circle as body A and the rectangle as B. The closest collision point is illustrated in ~\ref{fig:closest}.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.4\textwidth]{figures/closest.png}
-    \caption{Illustrating the closest point on a rectangle during a collision detection between a circle and a rectangle. Note that this is \emph{not a collision}.}
+    \caption{Illustrating the closest point on a rectangle during a collision detection between a circle and a rectangle. Note that this is \emph{not} a collision.}
     \label{fig:closest}
 \end{figure}
 
@@ -203,7 +218,7 @@ The normal of the collision will then be the vector from this \emph{closest} pos
 % Correcting penetration position
 \section{Correcting penetration position}
 
-As mentioned in the previous section there will be a slight penetration between the objects because of the discrete step in time between each calculation. This is not a great problem since most computers can run the simulation at a high framerate. However if the objects travel at a high enough speed they \emph{will} penetrate each other as illustrated in ~\ref{fig:penetration}, they might even skip collision if they travel past each other during a time step.
+As mentioned in the previous section there will be a slight penetration between the objects because of the discrete step in time between each calculation. This is not a serious problem since most computers can run the simulation at a high framerate. However if the objects travel at a high enough speed they \emph{will} penetrate each other as illustrated in ~\ref{fig:penetration}, they might even skip collision if they travel past each other during a time step.
 
 \begin{figure}[!ht]
     \centering
@@ -212,29 +227,36 @@ As mentioned in the previous section there will be a slight penetration between 
     \label{fig:penetration}
 \end{figure}
 
-This effect can be handled in a few different ways, one common way is to model the penetration as a spring and separate the objects with respect to a spring coefficient and the objects' masses. In our implementation we have done a pseudo-spring solution to the problem. This effect is not clearly visable just looking at the simulation. However we have the ability to spawn objects partly penetrating another object this shows the effect very clearly. More on this in a later section (\ref{sec:opengl}) on the OpenGL implementation.
+This effect can be handled in a few different ways. One common way is to model the penetration as a spring and separate the objects with respect to a spring coefficient and the objects' masses. In our implementation we have done a pseudo-spring solution to the problem. This effect is not clearly visible by simply looking at the simulation. However, we have the ability to spawn objects partly penetrating another object which clearly shows the effect. More on this in a later section (\ref{sec:opengl}) on the OpenGL implementation.
 
 
 % Numerical integration
 \section{Numerical integration}
 
-\subsection{Euler method}
-
-Since computers live in a world of zeroes and ones, we need a way to integrate numerically, the most basic and widely used approach is the \emph{Euler method}\cite{gdm}. For this type of simulation, the \emph{Euler method} is suitable for the majority of applications; however, another method will also be covered. The \emph{Euler method} \ref{eq:euler:1} works by adding the current state with its derivative multiplied by the step in time.
+Since computers live in a world of zeroes and ones, we need a way to integrate numerically. For our simulation, first-order differential equations will be sufficient to approximate a solution. The most general first-order differential equation \eqref{eq:sick:1}, where $\dot{y}$ denotes the first-order derivative and \emph{f}, for example, denotes the velocity. Then the numerical integration \emph{y} would give the position.
 
 \begin{equation}
-y_{n+1}=y_{n}+hf(t_n, y_n)
+\dot{y}(t)=f(t,y(t))
+\label{eq:sick:1}
+\end{equation}
+
+\subsection{Euler method}
+
+The most basic and widely used approach is the \emph{Euler method}\cite{gdm}. For this type of simulation, the \emph{Euler method} is suitable for the majority of applications; however, another method will also be covered. The \emph{Euler method} \eqref{eq:euler:1} works by adding the current state with its derivative multiplied by the step in time.
+
+\begin{equation}
+x_{n+1}=x_{n}+hf(t_n, y_n)
 \label{eq:euler:1}
 \end{equation}
 
-In this particular simulation the method needs to be applied in two different situations. First of all to obtain the new velocities \ref{eq:euler:2} of the objects for the next frame. Which is calculated by multiplying the acceleration with the time step and then add the product to the velocity in the previous frame.
+In this particular simulation, the method needs to be applied in two different situations. First of all to obtain the new velocities \eqref{eq:euler:2} of the objects for the next frame. Which is calculated by multiplying the acceleration with the time step and then add the product to the velocity in the previous frame.
 
 \begin{equation}
-v_{t+1}=v_n+ha_n
+v_{n+1}=v_n+ha_n
 \label{eq:euler:2}
 \end{equation}
 
-Since objects, of course, needs to be able to spin and move around in different directions for the simulation to be somewhat realistic. The positions $p$ in \ref{eq:euler:3} and orientations $\Omega$ in \ref{eq:euler:4} also needs to be updated in the scene. This is simply done by integrating the velocities $v$ and angular velocities $w$, respecivley, by multiplying with the time step.
+Since objects, of course, needs to be able to spin and move around in different directions for the simulation to be somewhat realistic. The positions $p$ in \eqref{eq:euler:3} and orientations $\Omega$ in \eqref{eq:euler:4} also needs to be updated in the scene. This is simply done by integrating the velocities $v$ and angular velocities $w$, respecivley, by multiplying with the time step.
 
 \begin{equation}
 p_{n+1}=p_n+hv_{n+1}
@@ -248,9 +270,9 @@ p_{n+1}=p_n+hv_{n+1}
 
 Since this method is one of the more simplistic numerical methods, it is important to keep in mind that an error will compound with each iteration. Many times the Euler method is not good enough, the compound error increase as long as the simulation is running, as explained by \cite{gog}.
 
-\subsection{Runge Kutta method}
+\subsection{Runge-Kutta method}
 
-As our second method we chose Runge Kutta fourth order, often referred to as classic Runge Kutta metod. This metod calculate the approximation in four increments as shown in \ref{eq:rk4:1}.
+For our second method, we chose Runge-Kutta fourth order, often referred to as the classic Runge-Kutta method. This method calculates the approximation in four increments as shown in \eqref{eq:rk4:1}.
 
 \begin{equation}
 \begin{split}
@@ -264,7 +286,7 @@ As our second method we chose Runge Kutta fourth order, often referred to as cla
 \label{eq:rk4:1}
 \end{equation}
 
-The step size, h, is arbitrarily chosen, to big or small will accumulate a larger error to the approximation. Like the Euler method, each step uses the previous computation to calculate a new value. To determine the next value from the present value the results from \ref{eq:rk4:1} is weighted. The two middle values are twice as important as the $k_1$ and $k_4$ as shown in \ref{eq:rk4:2}.
+The step size, h, is arbitrarily chosen, too big or too small will accumulate a larger error to the approximation. Like the Euler method, each step uses the previous computation to calculate a new value. To determine the next value from the present value, the results from \eqref{eq:rk4:1} are weighted. The two middle values are twice as important as $k_1$ and $k_4$ as shown in \eqref{eq:rk4:2}.
 
 \begin{equation}
 \begin{split}
@@ -276,7 +298,7 @@ The step size, h, is arbitrarily chosen, to big or small will accumulate a large
 \label{eq:rk4:2}
 \end{equation}
 
-The final value is the sum of the weighted values and present value \ref{eq:rk4:3}.
+The final value is the sum of the weighted values and the present value \eqref{eq:rk4:3}.
 
 \begin{equation}
 \begin{split}
@@ -288,17 +310,17 @@ The final value is the sum of the weighted values and present value \ref{eq:rk4:
 \label{eq:rk4:3}
 \end{equation}
 
-In our simulation Runge Kutta is applied for position, orientation, velocity and angular velocity. The improvement from Euler is showing clearly when the bodies are piled up next to each other, with zero velocity. With Euler, the balls tend to still move and never reach any steady state. The subject is futher discussed in the \emph{Discussion} chapter.
+In our simulation Runge-Kutta is applied for position, orientation, velocity and angular velocity. The improvement from Euler is clear when the bodies are piled up next to each other with zero velocity. With Euler, the balls continually move and never reach a steady state. The subject is futher discussed in the \emph{Discussion} chapter.
 
 
 % OpenGL Implementation
 \section{OpenGL implementation}
 \label{sec:opengl}
 
-The chosen method to run the simulation is \emph{OpenGL} which is a computer graphics API supported by most graphics cards. Our implementation was written in \emph{C++}. Listing \ref{lst:1} shows pseudo code for the implementation.
+The simulation is implemented in \emph{OpenGL} which is a computer graphics API supported by most graphics cards. Our implementation was written in \emph{C++}. Listing \ref{lst:1} shows pseudo code for the implementation.
 
 \begin{lstlisting}[caption={Pseudo code for the simulation loop.}, label=lst:1]
-while simulation running:
+while simulation is running:
     find collisions;
     apply gravitational force;
     resolve collision impulse;
@@ -307,21 +329,21 @@ while simulation running:
     draw objects at new position;
 \end{lstlisting}
 
-To make the user able to interact with the simulation during runtime the user is able to spawn new circles with a random radius. This is done by left-clicking the mouse, which will create a new circle at the mouse position.
+To make the user able to interact with the simulation during runtime, the user is able to spawn new circles with a random radius. This is done by left-clicking the mouse, which will create a new circle at the mouse position.
 
-Some restrictions does exist when implementing the geometries. Rectangles are, for example, not allowed to be affected by the physics, i.e they are only allowed to act as static objects. Which only allows us to use them as floors and walls, not as actual falling bodies.
+Some restrictions exist when implementing the geometries. Rectangles are, for example, not allowed to be affected by the physics, i.e they are only allowed to act as static objects. This only allows us to use them as floors and walls, not as actual falling bodies.
 
 \subsection{Running the simulation}
 
-Navigate to the folder named \emph{release} and then the OS-specific folder of your choosing click the executable file named \emph{run-simulation.*} to run the simulation. The software is not tested on any Linux distribution. These instructions are also located in the \emph{README.md} file.
+Navigate to the folder named \emph{release} and then the OS-specific folder of your choosing. Click the executable file named \emph{run-simulation.*} to run the simulation. The software is not tested on any Linux distribution. These instructions are also located in the \emph{README.md} file.
 
 
 %-- Discussion
 \chapter{Discussion}
 
-While we are quite pleased with the results of our two dimensional physics simulator, there are some definite limitations in the work. Due to the fact that our simulation only accounts for two seperate types of geometries, there is much to be desired in that respect. While the results of the simulation do mimic reality with the collisions of circles to circles and circles to rectangles, a wider array of geometries would test the capabilities of our simulator even further. This increase in collision types would certainly give us a better understanding of whether our simulator is a reliable way to imitate reality.
+While we are quite pleased with the results of our two dimensional physics simulation, there are some definite limitations in the work. Due to the fact that our simulation only accounts for two seperate types of geometries, there is much to be desired in that respect. While the results of the simulation do mimic reality with the collisions of circles to circles and circles to rectangles, a wider array of geometries would test the capabilities of our simulator even further. This increase in collision types would certainly give us a better understanding of whether our simulator is a reliable way to imitate reality.
 
-Another glaring problem when running the simulator is that after the majority of the collisions have occurred and the circles come to rest upon each other as well as on the rectangles, they continue to spin. Obviously, if these bodies have any type of frictional surface, they will at some point come to a rest and stop spinning. This most likely due to the fact that our friction is directly dependent on the impulse of the collisions. When two bodies are resting against one another, the collision impulse is very little (almost non-existant). This gives us a friction along the perpendicular tangent to the collision which is even less and thus, we have a frictional force which is nearly non-existant when two bodies are resting against one another. In retrospect, this is likely a case where a static friction should be implemented in addition to the dynamic friction for the two different cases.
+Another glaring problem when running the simulation is that after the majority of the high-impulse collisions have occurred and the circles come to rest upon each other as well as on the rectangles, they continue to spin. Obviously, if these bodies have any type of frictional surface, they will at some point come to a rest and stop spinning. This most likely due to the fact that our friction is directly dependent on the impulse of the collisions. When two bodies are resting against one another, the collision impulse is very small (almost non-existant). This gives us a friction along the perpendicular tangent to the collision which is even less and thus, we have a frictional force which is nearly non-existant when two bodies are resting against one another. In retrospect, this is likely a case where a static friction should be implemented in addition to the dynamic friction for the two different cases.
 
 
 %-- Bibliography
