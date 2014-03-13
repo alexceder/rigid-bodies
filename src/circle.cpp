@@ -62,7 +62,5 @@ float Circle::calculateMass()
 
 float Circle::calculateMomentOfInertia()
 {
-    // Moment of inertia:
-    // http://en.wikipedia.org/wiki/List_of_area_moments_of_inertia
-    return (PI / 4) * _radius * _radius * _radius * _radius;
+    return ( calculateMass() * _radius * _radius ) / 2;
 }
