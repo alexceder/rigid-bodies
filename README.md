@@ -1,4 +1,4 @@
-# mos-two-dice
+# 2D Rigid Bodies
 
 Simulation of Rigid Body collisions in 2D space, implemented in C++ and OpenGL. Many bugs/leaks ahead, tread carefully.
 
