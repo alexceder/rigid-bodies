@@ -2,6 +2,8 @@
 
 Simulation of Rigid Body collisions in 2D space, implemented in C++ and OpenGL. Many bugs/leaks ahead, tread carefully.
 
+*Done as a school project in a modelling and simulation course. Project report is in Swedish.*
+
 ## Running the simulation
 
 If you do not care for compiling the software by yourself. Go ahead and navigate to the ``release`` directory and the directory corresponding to your current operating system. Click on the executable named ``run-simulation`` to run the application.
